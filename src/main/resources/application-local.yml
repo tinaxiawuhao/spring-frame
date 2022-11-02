@@ -1,0 +1,67 @@
+server:
+  port: 8000
+
+spring:
+  datasource:
+    url: jdbc:mysql://10.206.67.248:3518/nft_shop_dev?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false
+    password: S$@%@!#%Dfhlaf124
+    username: app_dev
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: ${REDIS_DATABASE:0}
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:3306}
+    password: ${REDIS_PASSWORD:}
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+## swagger自定义配置属性
+swagger:
+  enabled: true
+  title: dt-commercialization在线接口平台
+  description: dt-commercialization服务相关接口
+
+
+
+# jwt
+jwt:
+  header: token
+  secret: cuAihCz53DZRjZwbsGcZJ2Ai6At+T142uphtJMsk7iQ=
+  expiration: 3600
+  tokenHead: ""
+  pub-uris:
+    # 开放接口
+    - "/auth"
+    - "/login"
+    - "/auth/register"
+    # swagger文档接口
+    - "/"
+    - "/**/swagger-resources"
+    - "/**/api-docs"
+    - "/**/doc.html"
+    # 服务健康检查
+    - "/sys/healthCheck"
+  static-sources:
+    #静态资源
+    - "/"
+    - "/*.html"
+    - "/favicon.ico"
+    - "/**/*.html"
+    - "/**/*.css"
+    - "/**/*.js"
+
+env:
+  type: ${PAYMENT_TYPE:local}

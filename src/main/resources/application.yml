@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: spring-frame
+  profiles:
+    active:  ${SERVER_ACTIVE:prod}
+

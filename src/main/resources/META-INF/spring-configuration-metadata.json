@@ -1,0 +1,91 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.example.springframe.config.jwt.JwtPropertiesConfig",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.route",
+      "type": "com.example.springframe.config.jwt.JwtPropertiesConfig$Route",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "swagger",
+      "type": "com.example.springframe.config.swagger.SwaggerProperties",
+      "sourceType": "com.example.springframe.config.swagger.SwaggerProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.header",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.init-pass",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.pub-uris",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.route.path",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig$Route"
+    },
+    {
+      "name": "jwt.route.refresh",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig$Route"
+    },
+    {
+      "name": "jwt.route.register",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig$Route"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.static-sources",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "jwt.token-head",
+      "type": "java.lang.String",
+      "sourceType": "com.example.springframe.config.jwt.JwtPropertiesConfig"
+    },
+    {
+      "name": "swagger.description",
+      "type": "java.lang.String",
+      "description": "文档描述",
+      "sourceType": "com.example.springframe.config.swagger.SwaggerProperties"
+    },
+    {
+      "name": "swagger.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用swagger,生产环境建议关闭",
+      "sourceType": "com.example.springframe.config.swagger.SwaggerProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "swagger.title",
+      "type": "java.lang.String",
+      "description": "文档标题",
+      "sourceType": "com.example.springframe.config.swagger.SwaggerProperties"
+    }
+  ],
+  "hints": []
+}
