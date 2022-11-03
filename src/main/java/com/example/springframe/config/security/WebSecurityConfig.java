@@ -20,6 +20,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
 
@@ -146,7 +148,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //添加登录body参数解析
                 //添加登录body参数解析
                 .addFilterBefore(userAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(jwtAuthenticationTokenFilter)
+                .addFilterBefore(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class)
         ;
     }
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springframe.mapper.SysRoleMapper">
+
+    <resultMap type="com.example.springframe.entity.SysRole" id="SysRoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="roleDescription" column="role_description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysRoleMap">
+        select id,
+               code,
+               role,
+               role_description
+        from sys_role
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysRoleMap">
+        select
+        id, code, role, role_description
+        from sys_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="role != null and role != ''">
+                and role = #{role}
+            </if>
+            <if test="roleDescription != null and roleDescription != ''">
+                and role_description = #{roleDescription}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from sys_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="role != null and role != ''">
+                and role = #{role}
+            </if>
+            <if test="roleDescription != null and roleDescription != ''">
+                and role_description = #{roleDescription}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(code, role, role_description)
+        values (#{code}, #{role}, #{roleDescription})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(code, role, role_description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.role}, #{entity.roleDescription})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_role(code, role, role_description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.role}, #{entity.roleDescription})
+        </foreach>
+        on duplicate key update
+        code = values(code),
+        role = values(role),
+        role_description = values(role_description)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update sys_role
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="role != null and role != ''">
+                role = #{role},
+            </if>
+            <if test="roleDescription != null and roleDescription != ''">
+                role_description = #{roleDescription},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from sys_role
+        where id = #{id}
+    </delete>
+
+</mapper>
+

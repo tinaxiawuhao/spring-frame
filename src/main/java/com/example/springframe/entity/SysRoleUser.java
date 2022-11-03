@@ -14,19 +14,19 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * (SysRolePermission)实体类
+ * (SysRoleUser)实体类
  *
  * @author makejava
- * @since 2022-11-03 11:03:49
+ * @since 2022-11-03 11:03:50
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_role_permission")
-@ApiModel(value = "SysRolePermission对象", description = "角色权限关系")
+@TableName("sys_role_user")
+@ApiModel(value = "SysRoleUser对象", description = "用户角色关系")
 @Builder
-public class SysRolePermission extends Model<SysRolePermission> implements Serializable {
-    private static final long serialVersionUID = 663992408048007756L;
+public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
+    private static final long serialVersionUID = 845882205128249998L;
     /**
      * 主键
      */
@@ -39,10 +39,10 @@ public class SysRolePermission extends Model<SysRolePermission> implements Seria
     @ApiModelProperty(value = "标识主键")
     private String code;
     /**
-     * 权限id
+     * 用户id
      */
-    @ApiModelProperty(value = "权限id")
-    private Integer permissionId;
+    @ApiModelProperty(value = "用户id")
+    private Integer userId;
     /**
      * 角色id
      */

@@ -2,11 +2,11 @@ package com.example.springframe.config.security.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.springframe.entity.SysRole;
+import com.example.springframe.entity.SysRoleUser;
 import com.example.springframe.entity.SysUser;
-import com.example.springframe.entity.SysUserRole;
 import com.example.springframe.mapper.SysRoleMapper;
+import com.example.springframe.mapper.SysRoleUserMapper;
 import com.example.springframe.mapper.SysUserMapper;
-import com.example.springframe.mapper.SysUserRoleMapper;
 import com.example.springframe.rest.RestResult;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private  SysUserMapper userMapper;
 
     @Resource
-    private  SysUserRoleMapper userRoleMapper;
+    private SysRoleUserMapper roleUserMapper;
 
     @Resource
     private  SysRoleMapper roleMapper;
@@ -40,14 +40,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new InternalAuthenticationServiceException(RestResult.ResEnum.ACCOUNT_NOTFOUND.getValue());
         }
 
-        List<SysUserRole> appUserRoles = userRoleMapper.selectList(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, user.getId()));
+        List<SysRoleUser> appUserRoles = roleUserMapper.selectList(new LambdaQueryWrapper<SysRoleUser>().eq(SysRoleUser::getUserId, user.getId()));
         UserSecurityDetailImpl userSecurityDetailImpl;
         if (appUserRoles == null || appUserRoles.isEmpty()){
             userSecurityDetailImpl = new UserSecurityDetailImpl(user, Collections.emptyList());
         }else {
             List<SysRole> roles = roleMapper.selectList(
                     new LambdaQueryWrapper<SysRole>().in(SysRole::getId, appUserRoles.stream()
-                            .map(SysUserRole::getRoleId).collect(Collectors.toSet())));
+                            .map(SysRoleUser::getRoleId).collect(Collectors.toSet())));
             userSecurityDetailImpl = new UserSecurityDetailImpl(user, roles);
         }
         return userSecurityDetailImpl;

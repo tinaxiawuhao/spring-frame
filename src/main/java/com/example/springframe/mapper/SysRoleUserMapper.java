@@ -1,6 +1,6 @@
 package com.example.springframe.mapper;
 
-import com.example.springframe.entity.SysUser;
+import com.example.springframe.entity.SysRoleUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
@@ -8,12 +8,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
- * 用户详情(SysUser)表数据库访问层
+ * (SysRoleUser)表数据库访问层
  *
  * @author makejava
- * @since 2022-11-03 11:03:51
+ * @since 2022-11-03 11:03:49
  */
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysRoleUserMapper extends BaseMapper<SysRoleUser> {
 
     /**
      * 通过ID查询单条数据
@@ -21,57 +21,57 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param id 主键
      * @return 实例对象
      */
-    SysUser queryById(Integer id);
+    SysRoleUser queryById(Integer id);
 
     /**
      * 查询指定行数据
      *
-     * @param sysUser  查询条件
-     * @param pageable 分页对象
+     * @param sysRoleUser 查询条件
+     * @param pageable    分页对象
      * @return 对象列表
      */
-    List<SysUser> queryAllByLimit(SysUser sysUser, @Param("pageable") Pageable pageable);
+    List<SysRoleUser> queryAllByLimit(SysRoleUser sysRoleUser, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数
      *
-     * @param sysUser 查询条件
+     * @param sysRoleUser 查询条件
      * @return 总行数
      */
-    long count(SysUser sysUser);
+    long count(SysRoleUser sysRoleUser);
 
     /**
      * 新增数据
      *
-     * @param sysUser 实例对象
+     * @param sysRoleUser 实例对象
      * @return 影响行数
      */
-    int insert(SysUser sysUser);
+    int insert(SysRoleUser sysRoleUser);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
      *
-     * @param entities List<SysUser> 实例对象列表
+     * @param entities List<SysRoleUser> 实例对象列表
      * @return 影响行数
      */
-    int insertBatch(@Param("entities") List<SysUser> entities);
+    int insertBatch(@Param("entities") List<SysRoleUser> entities);
 
     /**
      * 批量新增或按主键更新数据（MyBatis原生foreach方法）
      *
-     * @param entities List<SysUser> 实例对象列表
+     * @param entities List<SysRoleUser> 实例对象列表
      * @return 影响行数
      * @throws org.springframework.jdbc.BadSqlGrammarException 入参是空List的时候会抛SQL语句错误的异常，请自行校验入参
      */
-    int insertOrUpdateBatch(@Param("entities") List<SysUser> entities);
+    int insertOrUpdateBatch(@Param("entities") List<SysRoleUser> entities);
 
     /**
      * 修改数据
      *
-     * @param sysUser 实例对象
+     * @param sysRoleUser 实例对象
      * @return 影响行数
      */
-    int update(SysUser sysUser);
+    int update(SysRoleUser sysRoleUser);
 
     /**
      * 通过主键删除数据
