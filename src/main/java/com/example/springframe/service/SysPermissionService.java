@@ -1,9 +1,9 @@
 package com.example.springframe.service;
 
-import com.example.springframe.entity.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.SysPermission;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 权限详情(SysPermission)表服务接口
@@ -28,7 +28,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param pageRequest   分页对象
      * @return 查询结果
      */
-    Page<SysPermission> queryByPage(SysPermission sysPermission, PageRequest pageRequest);
+    PageInfo<SysPermission> queryByPage(SysPermission sysPermission, SearchPage pageRequest);
 
     /**
      * 新增数据

@@ -38,7 +38,6 @@
                 and role_id = #{roleId}
             </if>
         </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 
     <!--统计总行数-->

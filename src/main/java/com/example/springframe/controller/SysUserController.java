@@ -1,12 +1,12 @@
 package com.example.springframe.controller;
 
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.rest.RestResult;
 import com.example.springframe.service.SysUserService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,13 +31,13 @@ public class SysUserController {
      * 分页查询
      *
      * @param sysUser     筛选条件
-     * @param pageRequest 分页对象
+     * @param searchPage 分页对象
      * @return 查询结果
      */
-    @GetMapping(value = "/queryByPage")
+    @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public ResponseEntity<Page<SysUser>> queryByPage(@RequestBody SysUser sysUser, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.sysUserService.queryByPage(sysUser, pageRequest));
+    public RestResult<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage searchPage) {
+        return RestResult.ok(this.sysUserService.queryByPage(sysUser, searchPage));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysUserController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public ResponseEntity<SysUser> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.sysUserService.queryById(id));
+    public RestResult<SysUser> queryById(@PathVariable("id") Integer id) {
+        return RestResult.ok(this.sysUserService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysUserController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public ResponseEntity<SysUser> add(@RequestBody SysUser sysUser) {
-        return ResponseEntity.ok(this.sysUserService.insert(sysUser));
+    public RestResult<SysUser> add(@RequestBody SysUser sysUser) {
+        return RestResult.ok(this.sysUserService.insert(sysUser));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysUserController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public ResponseEntity<SysUser> edit(@RequestBody SysUser sysUser) {
-        return ResponseEntity.ok(this.sysUserService.update(sysUser));
+    public RestResult<SysUser> edit(@RequestBody SysUser sysUser) {
+        return RestResult.ok(this.sysUserService.update(sysUser));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysUserController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.sysUserService.deleteById(id));
+    public RestResult<Boolean> deleteById(Integer id) {
+        return RestResult.ok(this.sysUserService.deleteById(id));
     }
 
 }

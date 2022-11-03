@@ -1,9 +1,8 @@
 package com.example.springframe.mapper;
 
-import com.example.springframe.entity.SysRolePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.springframe.entity.SysRolePermission;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -27,10 +26,9 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
      * 查询指定行数据
      *
      * @param sysRolePermission 查询条件
-     * @param pageable          分页对象
      * @return 对象列表
      */
-    List<SysRolePermission> queryAllByLimit(SysRolePermission sysRolePermission, @Param("pageable") Pageable pageable);
+    List<SysRolePermission> queryAllByLimit(SysRolePermission sysRolePermission);
 
     /**
      * 统计总行数

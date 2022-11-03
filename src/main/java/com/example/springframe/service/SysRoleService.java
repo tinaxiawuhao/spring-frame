@@ -1,9 +1,9 @@
 package com.example.springframe.service;
 
-import com.example.springframe.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.SysRole;
+import com.github.pagehelper.PageInfo;
 
 /**
  * (SysRole)表服务接口
@@ -28,7 +28,7 @@ public interface SysRoleService extends IService<SysRole> {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    Page<SysRole> queryByPage(SysRole sysRole, PageRequest pageRequest);
+    PageInfo<SysRole> queryByPage(SysRole sysRole, SearchPage pageRequest);
 
     /**
      * 新增数据

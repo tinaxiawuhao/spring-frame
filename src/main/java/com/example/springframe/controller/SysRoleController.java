@@ -1,12 +1,12 @@
 package com.example.springframe.controller;
 
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRole;
+import com.example.springframe.rest.RestResult;
 import com.example.springframe.service.SysRoleService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,8 +36,8 @@ public class SysRoleController {
      */
     @GetMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public ResponseEntity<Page<SysRole>> queryByPage(@RequestBody SysRole sysRole, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.sysRoleService.queryByPage(sysRole, pageRequest));
+    public RestResult<PageInfo<SysRole>> queryByPage(@RequestBody SysRole sysRole, SearchPage pageRequest) {
+        return RestResult.ok(this.sysRoleService.queryByPage(sysRole, pageRequest));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysRoleController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public ResponseEntity<SysRole> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.sysRoleService.queryById(id));
+    public RestResult<SysRole> queryById(@PathVariable("id") Integer id) {
+        return RestResult.ok(this.sysRoleService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysRoleController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public ResponseEntity<SysRole> add(@RequestBody SysRole sysRole) {
-        return ResponseEntity.ok(this.sysRoleService.insert(sysRole));
+    public RestResult<SysRole> add(@RequestBody SysRole sysRole) {
+        return RestResult.ok(this.sysRoleService.insert(sysRole));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysRoleController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public ResponseEntity<SysRole> edit(@RequestBody SysRole sysRole) {
-        return ResponseEntity.ok(this.sysRoleService.update(sysRole));
+    public RestResult<SysRole> edit(@RequestBody SysRole sysRole) {
+        return RestResult.ok(this.sysRoleService.update(sysRole));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysRoleController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.sysRoleService.deleteById(id));
+    public RestResult<Boolean> deleteById(Integer id) {
+        return RestResult.ok(this.sysRoleService.deleteById(id));
     }
 
 }

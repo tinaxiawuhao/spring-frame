@@ -76,7 +76,7 @@ public class RestResult<T> {
         EXCEPTION("异常", 505),
         TOKEN_INVALID("token失效", 501),
         ILLEGAL_TOKEN("非法token", 502),
-        NOTFUND_TOKEN("未找到token", 503),
+        NOTFUND_TOKEN("请求头缺少token", 503),
         FORBIDDEN_ACCESS("无访问权限", 403),
         ACCOUNT_NOTFOUND( "账号不存在",404),
         LOGIN_INVALID("账号或密码错误",405),

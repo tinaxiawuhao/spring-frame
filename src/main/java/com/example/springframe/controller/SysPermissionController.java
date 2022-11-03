@@ -1,12 +1,12 @@
 package com.example.springframe.controller;
 
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysPermission;
+import com.example.springframe.rest.RestResult;
 import com.example.springframe.service.SysPermissionService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,8 +36,8 @@ public class SysPermissionController {
      */
     @GetMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public ResponseEntity<Page<SysPermission>> queryByPage(@RequestBody SysPermission sysPermission, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.sysPermissionService.queryByPage(sysPermission, pageRequest));
+    public RestResult<PageInfo<SysPermission>> queryByPage(@RequestBody SysPermission sysPermission, SearchPage pageRequest) {
+        return RestResult.ok(this.sysPermissionService.queryByPage(sysPermission, pageRequest));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysPermissionController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public ResponseEntity<SysPermission> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.sysPermissionService.queryById(id));
+    public RestResult<SysPermission> queryById(@PathVariable("id") Integer id) {
+        return RestResult.ok(this.sysPermissionService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysPermissionController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public ResponseEntity<SysPermission> add(@RequestBody SysPermission sysPermission) {
-        return ResponseEntity.ok(this.sysPermissionService.insert(sysPermission));
+    public RestResult<SysPermission> add(@RequestBody SysPermission sysPermission) {
+        return RestResult.ok(this.sysPermissionService.insert(sysPermission));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysPermissionController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public ResponseEntity<SysPermission> edit(@RequestBody SysPermission sysPermission) {
-        return ResponseEntity.ok(this.sysPermissionService.update(sysPermission));
+    public RestResult<SysPermission> edit(@RequestBody SysPermission sysPermission) {
+        return RestResult.ok(this.sysPermissionService.update(sysPermission));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysPermissionController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.sysPermissionService.deleteById(id));
+    public RestResult<Boolean> deleteById(Integer id) {
+        return RestResult.ok(this.sysPermissionService.deleteById(id));
     }
 
 }

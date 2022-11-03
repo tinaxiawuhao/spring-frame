@@ -1,9 +1,9 @@
 package com.example.springframe.service;
 
-import com.example.springframe.entity.SysRolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.SysRolePermission;
+import com.github.pagehelper.PageInfo;
 
 /**
  * (SysRolePermission)表服务接口
@@ -28,7 +28,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @param pageRequest       分页对象
      * @return 查询结果
      */
-    Page<SysRolePermission> queryByPage(SysRolePermission sysRolePermission, PageRequest pageRequest);
+    PageInfo<SysRolePermission> queryByPage(SysRolePermission sysRolePermission, SearchPage pageRequest);
 
     /**
      * 新增数据

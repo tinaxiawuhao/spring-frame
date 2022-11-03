@@ -1,9 +1,9 @@
 package com.example.springframe.service;
 
-import com.example.springframe.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.SysUser;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 用户详情(SysUser)表服务接口
@@ -28,7 +28,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    Page<SysUser> queryByPage(SysUser sysUser, PageRequest pageRequest);
+    PageInfo<SysUser> queryByPage(SysUser sysUser, SearchPage pageRequest);
 
     /**
      * 新增数据

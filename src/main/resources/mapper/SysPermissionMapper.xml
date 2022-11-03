@@ -94,7 +94,6 @@
                 and update_time = #{updateTime}
             </if>
         </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 
     <!--统计总行数-->

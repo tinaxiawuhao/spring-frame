@@ -1,12 +1,12 @@
 package com.example.springframe.controller;
 
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRolePermission;
+import com.example.springframe.rest.RestResult;
 import com.example.springframe.service.SysRolePermissionService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,8 +36,8 @@ public class SysRolePermissionController {
      */
     @GetMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public ResponseEntity<Page<SysRolePermission>> queryByPage(@RequestBody SysRolePermission sysRolePermission, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.sysRolePermissionService.queryByPage(sysRolePermission, pageRequest));
+    public RestResult<PageInfo<SysRolePermission>> queryByPage(@RequestBody SysRolePermission sysRolePermission, SearchPage pageRequest) {
+        return RestResult.ok(this.sysRolePermissionService.queryByPage(sysRolePermission, pageRequest));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysRolePermissionController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public ResponseEntity<SysRolePermission> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.sysRolePermissionService.queryById(id));
+    public RestResult<SysRolePermission> queryById(@PathVariable("id") Integer id) {
+        return RestResult.ok(this.sysRolePermissionService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysRolePermissionController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public ResponseEntity<SysRolePermission> add(@RequestBody SysRolePermission sysRolePermission) {
-        return ResponseEntity.ok(this.sysRolePermissionService.insert(sysRolePermission));
+    public RestResult<SysRolePermission> add(@RequestBody SysRolePermission sysRolePermission) {
+        return RestResult.ok(this.sysRolePermissionService.insert(sysRolePermission));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysRolePermissionController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public ResponseEntity<SysRolePermission> edit(@RequestBody SysRolePermission sysRolePermission) {
-        return ResponseEntity.ok(this.sysRolePermissionService.update(sysRolePermission));
+    public RestResult<SysRolePermission> edit(@RequestBody SysRolePermission sysRolePermission) {
+        return RestResult.ok(this.sysRolePermissionService.update(sysRolePermission));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysRolePermissionController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.sysRolePermissionService.deleteById(id));
+    public RestResult<Boolean> deleteById(Integer id) {
+        return RestResult.ok(this.sysRolePermissionService.deleteById(id));
     }
 
 }

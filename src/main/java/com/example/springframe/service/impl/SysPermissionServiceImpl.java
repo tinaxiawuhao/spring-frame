@@ -1,16 +1,17 @@
 package com.example.springframe.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysPermission;
 import com.example.springframe.mapper.SysPermissionMapper;
 import com.example.springframe.service.SysPermissionService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 权限详情(SysPermission)表服务实现类
@@ -42,9 +43,10 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      * @return 查询结果
      */
     @Override
-    public Page<SysPermission> queryByPage(SysPermission sysPermission, PageRequest pageRequest) {
-        long total = this.sysPermissionMapper.count(sysPermission);
-        return new PageImpl<>(this.sysPermissionMapper.queryAllByLimit(sysPermission, pageRequest), pageRequest, total);
+    public PageInfo<SysPermission> queryByPage(SysPermission sysPermission, SearchPage pageRequest) {
+        PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
+        List<SysPermission> permissionList = this.sysPermissionMapper.queryAllByLimit(sysPermission);
+        return new PageInfo<>(permissionList);
     }
 
     /**
