@@ -36,6 +36,10 @@ CREATE TABLE `sys_role_permission` (
 -- Dumping data for table `sys_role_permission`
 --
 
+LOCK TABLES `sys_role_permission` WRITE;
+/*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_permission`
@@ -69,6 +73,10 @@ CREATE TABLE `sys_permission` (
 -- Dumping data for table `sys_permission`
 --
 
+LOCK TABLES `sys_permission` WRITE;
+/*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_role_user`
@@ -91,6 +99,11 @@ CREATE TABLE `sys_role_user` (
 -- Dumping data for table `sys_role_user`
 --
 
+LOCK TABLES `sys_role_user` WRITE;
+/*!40000 ALTER TABLE `sys_role_user` DISABLE KEYS */;
+INSERT INTO `sys_role_user` VALUES (1,'f91bf244-67d5-4da7-ba82-c8289fca4a84',1,1);
+/*!40000 ALTER TABLE `sys_role_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_user`
@@ -118,7 +131,7 @@ CREATE TABLE `sys_user` (
                             `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                             PRIMARY KEY (`id`) USING BTREE,
                             KEY `code_index` (`code`) USING BTREE COMMENT '简单索引'
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户详情';
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户详情';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,6 +140,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
+INSERT INTO `sys_user` VALUES (1,'057c1d58-41a0-4c8a-850a-de1d3d755136','admin','admin','8d6b1d673f0068dc6f70d222a4d3cf33',NULL,0,'18312341234','183@163.com',0,0,0,'057c1d58-41a0-4c8a-850a-de1d3d755136','2022-11-03 05:19:38',NULL,'2022-11-03 05:19:38'),(2,'629487cb-2452-422b-9dfc-0324f40b32ba','tenant','tenant','e10adc3949ba59abbe56e057f20f883e',NULL,1,'18312341235','1831@163.com',0,0,0,'057c1d58-41a0-4c8a-850a-de1d3d755136','2022-11-03 05:32:19',NULL,'2022-11-03 05:32:52');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +167,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'83ddb71c-5b26-4cf2-aaa2-472b246cfcce','超级管理员','超级管理员'),(2,'be1bb164-4b1f-4758-9264-da61065965d4','普通用户表','普通用户表');
+INSERT INTO `sys_role` VALUES (1,'83ddb71c-5b26-4cf2-aaa2-472b246cfcce','admin','超级管理员'),(2,'be1bb164-4b1f-4758-9264-da61065965d4','tenant','普通用户表');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-03 10:48:41
+-- Dump completed on 2022-11-03 14:13:40

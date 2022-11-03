@@ -5,6 +5,7 @@ import com.example.springframe.entity.SysRole;
 import com.example.springframe.entity.SysUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author liuya
  */
-@Service
+@Component
 public class CurrentUserInfo {
 
     public SysUser getSysUser() {

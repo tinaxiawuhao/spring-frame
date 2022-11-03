@@ -4,13 +4,13 @@ import com.example.springframe.config.jwt.JwtPropertiesConfig;
 import com.example.springframe.config.jwt.JwtService;
 import com.example.springframe.config.jwt.UserClaims;
 import com.example.springframe.rest.RestResult;
+import com.example.springframe.utils.RedisUtil;
 import com.example.springframe.utils.ReturnWrite;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 
 @Slf4j
@@ -39,6 +40,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Resource
     private JwtPropertiesConfig jwtPropertiesConfig;
+
+    @Resource
+    private RedisUtil redisUtil;
 
 
     @Override
@@ -69,7 +73,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             log.info("checking authentication " + username);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                //采用redis缓存，减少数据库查询次数
+                UserDetails userDetails = (UserDetails)redisUtil.get(username);
+                if(Objects.isNull(userDetails)){
+                    userDetails = this.userDetailsService.loadUserByUsername(username);
+                }
+
                 // 如果是初始密码，返回特殊状态码。
 //                if (passwordEncoder.matches(jwtPropertiesConfig.getInitPass(), userDetails.getPassword()) && !request.getRequestURI().contains("updateOwnPassword")) {
 //                    writeResp(response, JSON.toJSONString(RestResult.failed(RestResult.ResEnum.NEED_CHANGE_PAAS.getCode(), "需要更新初始密码")));
@@ -82,6 +91,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
                 try {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    //添加缓存
+                    redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
                 } catch (Exception e) {
                     log.error("------------异常---------" + e);
                 }
