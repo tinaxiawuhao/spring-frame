@@ -2,5 +2,5 @@ spring:
   application:
     name: spring-frame
   profiles:
-    active:  ${SERVER_ACTIVE:prod}
+    active:  ${SERVER_ACTIVE:local}
 

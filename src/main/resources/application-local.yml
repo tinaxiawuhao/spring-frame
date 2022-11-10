@@ -80,3 +80,15 @@ jwt:
 
 env:
   type: ${PAYMENT_TYPE:local}
+
+#mysqltomd
+mysqltomd:
+  # 文件下载路径
+  file-path:
+  # 排除表名称
+  exclude-table:
+  # 排除字段名称
+  exclude-field:
+  # 输出表名称
+  appoint-table:
+
