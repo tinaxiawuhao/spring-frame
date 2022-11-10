@@ -85,11 +85,11 @@ public class InitRunner {
         }
 
         if (StringUtils.isBlank(filePath)){
-            filePath = "C:\\Users\\admin\\Desktop\\数据库文档(" + DateTime.now().toString("yyyy年MM月dd日HH时mm") + ").md";
+            filePath = "./desc/数据库文档(" + DateTime.now().toString("yyyy年MM月dd日HH时mm") + ").md";
         }
         System.out.println(filePath);
         File writeName = new File(filePath);
-        writeName.createNewFile();
+        boolean newFile = writeName.createNewFile();
         FileWriter writer = new FileWriter(writeName);
         BufferedWriter out = new BufferedWriter(writer);
         out.write(stringBuilder.toString());
