@@ -5,6 +5,7 @@ import com.example.springframe.config.jwt.JwtService;
 import com.example.springframe.config.jwt.UserClaims;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.exception.basic.ResponseCode;
+import com.example.springframe.license.LicenseVerify;
 import com.example.springframe.utils.redis.RedisUtil;
 import com.example.springframe.utils.ReturnWrite;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -45,12 +46,21 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     private RedisUtil redisUtil;
 
+    @Resource
+    private LicenseVerify licenseVerify;
 
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain) throws ServletException, IOException {
+
+        //license校验
+        if(!licenseVerify.verify()){
+            chain.doFilter(request, response);
+            return;
+        }
+
         String authHeader;
         authHeader = request.getHeader(jwtPropertiesConfig.getHeader());
 //        boolean isIcGov = Arrays.stream(icUris).parallel().anyMatch(e -> request.getRequestURI().equals(e));

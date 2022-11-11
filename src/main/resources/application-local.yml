@@ -75,6 +75,13 @@ jwt:
     - "/**/*.css"
     - "/**/*.js"
 
+#License相关配置
+license:
+  subject: ${SUBJECT:licenseTest} #主体 - 注意主体要与生成证书的主体一致一致，不然验证通过不了
+  publicAlias: ${PUBLICALIAS:publicCert} #公钥别称
+  storePass: ${STOREPASS:cosmo1} #访问公钥的密码
+  licensePath: ${LICENSEPATH:C:\haier\dt-commercialization\dt-os-plat\src\main\resources\license\license.lic } #license位置
+  publicKeysStorePath: ${PUBLICKEYSSTOREPATH:C:\haier\dt-commercialization\dt-os-plat\src\main\resources\license\publicCerts.store } #公钥位置
 
 #mysqltomd
 mysqltomd:

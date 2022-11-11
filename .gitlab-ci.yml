@@ -1,0 +1,60 @@
+image: maven:3.6.3-jdk-8
+
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+# 定义缓存
+# 如果gitlab runner是shell或者docker，此缓存功能没有问题
+# 如果是k8s环境，要确保已经设置了分布式文件服务作为缓存
+cache:
+  key: springframe
+  paths:
+    - .m2/repository/
+    - springframe/target/*.jar
+
+# 本次构建的阶段：build package
+stages:
+  - package
+  - build
+  - build_release
+
+# 生产jar的job
+make_jar:
+  tags:
+    - dev-release
+  only:
+    - dev-release
+  image: maven:3.6.3-jdk-8
+  stage: package
+  script:
+    - echo "=============== 开始编译源码，在target目录生成jar文件 ==============="
+    - mvn clean && mvn package -Dmaven.test.skip=true
+    - echo "target文件夹" `ls springframe/target/`
+
+# 生产镜像的job
+make_image:
+  tags:
+    - dev-release
+  only:
+    - dev-release
+  image: docker:latest
+  stage: build
+  script:
+    - VERSION=`date +%Y%m%d%H%M`
+    - echo "VERSION=$VERSION" > .version
+    - echo $VERSION
+    - echo "从缓存中恢复的target文件夹" `ls springframe/target/`
+    - echo "=============== 登录Harbor  ==============="
+    - cd springframe
+    - docker login -u 21002033 -p R5j1689yJ9 https://registry2-qingdao.cosmoplat.com
+    - echo "=============== 打包Docker镜像 ： " registry2-qingdao.cosmoplat.com/skcc/springframe:$VERSION "==============="
+    - docker build -t registry2-qingdao.cosmoplat.com/skcc/springframe:$VERSION .
+    - echo "=============== 推送到镜像仓库  ==============="
+    - docker push registry2-qingdao.cosmoplat.com/skcc/springframe:$VERSION
+    - echo "=============== 登出  ==============="
+    - docker logout
+  artifacts:
+    paths:
+      - .version
+    expire_in: 1 days

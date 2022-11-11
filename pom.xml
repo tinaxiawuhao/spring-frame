@@ -139,7 +139,12 @@
             <artifactId>guava</artifactId>
             <version>28.0-jre</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/de.schlichtherle.truelicense/truelicense-core -->
+        <dependency>
+            <groupId>de.schlichtherle.truelicense</groupId>
+            <artifactId>truelicense-core</artifactId>
+            <version>1.33</version>
+        </dependency>
     </dependencies>
 
     <build>
