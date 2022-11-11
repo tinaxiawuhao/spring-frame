@@ -8,6 +8,8 @@
 <!-- debug 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!-- 自定义日志采集参数：[%rid] 采集请求唯一标记 -->
+    <conversionRule conversionWord="rid" converterClass="com.example.springframe.config.log.RidConvert"/>
     <!-- 动态日志级别 -->
     <jmxConfigurator/>
 
@@ -33,7 +35,7 @@
     <!-- ConsoleAppender 控制台输出日志 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <pattern> %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%rid] : - %msg%n</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
@@ -66,7 +68,7 @@
         <encoder>
             <pattern>
                 <!-- 设置日志输出格式 -->
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%rid] : - %msg%n
             </pattern>
         </encoder>
     </appender>
@@ -92,7 +94,7 @@
             <MaxFileSize>${log.maxSize}</MaxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  [%rid] :- %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -110,7 +112,7 @@
             <MaxFileSize>${log.maxSize}</MaxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -128,7 +130,7 @@
             <MaxFileSize>${log.maxSize}</MaxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] : - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -146,7 +148,7 @@
             <MaxFileSize>${log.maxSize}</MaxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -159,7 +161,7 @@
             <MaxFileSize>${log.maxSize}</MaxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
         </encoder>
     </appender>
 

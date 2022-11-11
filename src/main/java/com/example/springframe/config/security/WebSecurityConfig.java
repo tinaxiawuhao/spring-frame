@@ -1,6 +1,7 @@
 package com.example.springframe.config.security;
 
 import com.example.springframe.config.jwt.JwtPropertiesConfig;
+import com.example.springframe.config.log.RequestIdFilter;
 import com.example.springframe.config.security.filter.JwtAuthenticationTokenFilter;
 import com.example.springframe.config.security.filter.MyUsernamePasswordAuthenticationFilter;
 import com.example.springframe.config.security.handler.*;
@@ -33,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // 刷新菜单权限
     @Autowired
     private MyFilterInvocationImpl myFilterInvocation;
+
+    // 添加日志标识
+    private final RequestIdFilter requestIdFilter = new RequestIdFilter();
 
     // jwt登录验证
     @Resource
@@ -142,11 +146,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
                 // 设置session策略，无状态模式
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // http 响应头追加请求唯一标记
+                .headers().addHeaderWriter(requestIdFilter::writeHeaders).and()
                 //添加登录body参数解析
                 //添加登录body参数解析
                 .addFilterBefore(userAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class)
         ;
+
+        // 添加请求唯一标记处理
+        requestIdFilter.setRequestIdFilter(http);
     }
 
     @Override
