@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 /**
  * 生成图片验证码
  *
- * @author 谢长春 on 2017/11/21 .
  */
 @AllArgsConstructor
 public final class CodeImage {
@@ -32,22 +31,22 @@ public final class CodeImage {
          * 验证码位数
          */
         @Builder.Default
-        private int length = 4;
+        private final int length = 4;
         /**
          * 验证码宽度
          */
         @Builder.Default
-        private int width = 60;
+        private final int width = 60;
         /**
          * 验证码高度
          */
         @Builder.Default
-        private int height = 20;
+        private final int height = 20;
         /**
          * 图片类型
          */
         @Builder.Default
-        private Image type = Image.JPEG;
+        private final Image type = Image.JPEG;
     }
 
     public static CodeImage ofDefault() {
@@ -172,7 +171,7 @@ public final class CodeImage {
                                     .build()
                     )
                             .generate(System.out::println)
-                            .write(Paths.get("logs", "验证码.png").toAbsolutePath().toFile())
+                            .write(Paths.get("desc", "验证码.png").toAbsolutePath().toFile())
             );
             System.out.println(
                     CodeImage.of(
@@ -184,14 +183,14 @@ public final class CodeImage {
                                     .build()
                     )
                             .generate(System.out::println)
-                            .write(Paths.get("logs", "验证码.jpeg").toAbsolutePath().toFile())
+                            .write(Paths.get("desc", "验证码.jpeg").toAbsolutePath().toFile())
             );
             Stream.iterate(0, n -> n + 1).limit(100).forEach(i ->
                     System.out.println(
                             CodeImage.ofDefault()
                                     .generate(System.out::println)
                                     .write(
-                                            Paths.get("logs", Util.uuid().concat(".jpeg")).toAbsolutePath().toFile()
+                                            Paths.get("desc", Util.uuid().concat(".jpeg")).toAbsolutePath().toFile()
                                     )
                                     .getAbsolutePath()
                     )

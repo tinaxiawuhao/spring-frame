@@ -3,8 +3,9 @@ package com.example.springframe.config.security.filter;
 import com.example.springframe.config.jwt.JwtPropertiesConfig;
 import com.example.springframe.config.jwt.JwtService;
 import com.example.springframe.config.jwt.UserClaims;
-import com.example.springframe.rest.RestResult;
-import com.example.springframe.utils.RedisUtil;
+import com.example.springframe.exception.basic.APIResponse;
+import com.example.springframe.exception.basic.ResponseCode;
+import com.example.springframe.utils.redis.RedisUtil;
 import com.example.springframe.utils.ReturnWrite;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -60,13 +61,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             try {
                 customizedClaims = jwtService.parseClaimsFromToken(authToken);
             } catch (UnsupportedJwtException | MalformedJwtException | SignatureException uje) {
-                ReturnWrite.writeResp(response, RestResult.failed(RestResult.ResEnum.ILLEGAL_TOKEN));
+                ReturnWrite.writeResp(response, APIResponse.fail(ResponseCode.ILLEGAL_TOKEN));
                 return;
             } catch (ExpiredJwtException eje) {
-                ReturnWrite.writeResp(response, RestResult.failed(RestResult.ResEnum.TOKEN_INVALID));
+                ReturnWrite.writeResp(response, APIResponse.fail(ResponseCode.TOKEN_INVALID));
                 return;
             } catch (IllegalArgumentException uje) {
-                ReturnWrite.writeResp(response, RestResult.failed(RestResult.ResEnum.NOTFUND_TOKEN));
+                ReturnWrite.writeResp(response, APIResponse.fail(ResponseCode.NOTFUND_TOKEN));
                 return;
             }
             String username = customizedClaims.getUsername();
@@ -81,7 +82,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
                 // 如果是初始密码，返回特殊状态码。
 //                if (passwordEncoder.matches(jwtPropertiesConfig.getInitPass(), userDetails.getPassword()) && !request.getRequestURI().contains("updateOwnPassword")) {
-//                    writeResp(response, JSON.toJSONString(RestResult.failed(RestResult.ResEnum.NEED_CHANGE_PAAS.getCode(), "需要更新初始密码")));
+//                    writeResp(response, JSON.toJSONString(APIResponse.fail(ResponseCode.NEED_CHANGE_PAAS.getCode(), "需要更新初始密码")));
 //                    return;
 //                }
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

@@ -12,13 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -118,8 +116,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 接口可以匿名访问
                 .antMatchers(pubUrlArr).permitAll()
                 //动态加载权限时
-				.antMatchers("/user/getUsers").hasAnyAuthority("default","admin")
-				.antMatchers("/**").hasAuthority("admin")
+//				.antMatchers("/user/getUsers").hasAnyAuthority("default","admin")
+//				.antMatchers("/**").hasAuthority("admin")
                 .anyRequest().authenticated().and()//其他所有请求都要认证
             .formLogin()
                 .permitAll() //允许所有人访问

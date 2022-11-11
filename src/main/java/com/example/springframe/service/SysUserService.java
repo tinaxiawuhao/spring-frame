@@ -3,6 +3,8 @@ package com.example.springframe.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.entity.vo.RigistUserVO;
+import com.example.springframe.exception.basic.APIResponse;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -54,4 +56,10 @@ public interface SysUserService extends IService<SysUser> {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 注册用户
+     * @param addedUser 新增用户信息
+     * @return SysUser
+     */
+    SysUser register(RigistUserVO addedUser);
 }

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -47,26 +48,6 @@ public enum Charsets {
         return URLDecoder.decode(value, charset.displayName());
     }
 
-//    /**
-//     * url 字符串编码
-//     *
-//     * @param value {@link String}
-//     * @return {@link String}
-//     */
-//    public String encoder(final String value) {
-//        return charset.encode(value);
-//    }
-//
-//    /**
-//     * url 字符串解码
-//     *
-//     * @param value {@link String}
-//     * @return {@link String}
-//     */
-//    public String decoder(final String value) {
-//
-//        return ByteBuffer.wrap(value.getBytes(charset));
-//    }
 
     Charsets(final String comment, final Charset charset) {
         this.comment = comment;
@@ -74,8 +55,8 @@ public enum Charsets {
     }
 
     public static void main(String[] args) {
-        System.out.println(UTF_8.encode("?json={\"name\":\"JAVA\"}"));
-        System.out.println(UTF_8.encode("?json={\"name\":\"JAVA+JS\"}"));
-        System.out.println(UTF_8.decode("%3Fjson%3D%7B%22name%22%3A%22JAVA%22%7D"));
+        System.out.println(UTF_8.encode("json={\"name\":\"JAVA\"}"));
+        System.out.println(UTF_8.encode("json={\"name\":\"JAVA+JS\"}"));
+        System.out.println(UTF_8.decode("json%3D%7B%22name%22%3A%22JAVA%22%7D"));
     }
 }

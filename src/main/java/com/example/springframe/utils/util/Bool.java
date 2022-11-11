@@ -96,8 +96,8 @@ public final class Bool<T> {
     public static void main(String[] args) {
         final AtomicInteger counter = new AtomicInteger(1);
         Bool.of(true)
-                .hasTrue((v) -> System.out.println(counter.getAndIncrement() + " => TRUE"))
-                .hasFalse(() -> System.out.println(counter.getAndIncrement() + " => FALSE"));
+                .hasFalse(() -> System.out.println(counter.getAndIncrement() + " => FALSE"))
+                .hasTrue((v) -> System.out.println(counter.getAndIncrement() + " => TRUE"));
         Bool.of(false)
                 .hasTrue((v) -> System.out.println(counter.getAndIncrement() + " => TRUE"))
                 .hasFalse(() -> System.out.println(counter.getAndIncrement() + " => FALSE"));

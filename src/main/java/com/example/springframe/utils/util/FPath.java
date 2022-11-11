@@ -447,7 +447,7 @@ public final class FPath {
      * 文件名处理
      */
     public static class FileName {
-        private String name;
+        private final String name;
 
         private FileName(String name) {
             this.name = name;

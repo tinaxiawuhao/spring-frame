@@ -1,6 +1,7 @@
 package com.example.springframe.config.security.handler;
 
-import com.example.springframe.rest.RestResult;
+import com.example.springframe.exception.basic.APIResponse;
+import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.utils.ReturnWrite;
 import lombok.SneakyThrows;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,7 +17,7 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     @SneakyThrows
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e){
-        ReturnWrite.writeResp(response, RestResult.failed(RestResult.ResEnum.FORBIDDEN_ACCESS));
+        ReturnWrite.writeResp(response, APIResponse.fail(ResponseCode.FORBIDDEN_ACCESS));
 
     }
 }

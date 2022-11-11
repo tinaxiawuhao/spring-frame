@@ -59,11 +59,9 @@ jwt:
   tokenHead: ""
   pub-uris:
     # 开放接口
-    - "/auth"
     - "/login"
-    - "/auth/register"
+    - "/register"
     # swagger文档接口
-    - "/"
     - "/**/swagger-resources"
     - "/**/api-docs"
     - "/**/doc.html"
@@ -71,15 +69,12 @@ jwt:
     - "/sys/healthCheck"
   static-sources:
     #静态资源
-    - "/"
     - "/*.html"
     - "/favicon.ico"
     - "/**/*.html"
     - "/**/*.css"
     - "/**/*.js"
 
-env:
-  type: ${PAYMENT_TYPE:local}
 
 #mysqltomd
 mysqltomd:

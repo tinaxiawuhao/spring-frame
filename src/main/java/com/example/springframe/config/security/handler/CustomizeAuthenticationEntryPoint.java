@@ -1,6 +1,7 @@
 package com.example.springframe.config.security.handler;
 
-import com.example.springframe.rest.RestResult;
+import com.example.springframe.exception.basic.APIResponse;
+import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.utils.ReturnWrite;
 import lombok.SneakyThrows;
 import org.springframework.security.core.AuthenticationException;
@@ -16,6 +17,6 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
     @Override
     @SneakyThrows
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-        ReturnWrite.writeResp(response, RestResult.failed(RestResult.ResEnum.TOKEN_INVALID));
+        ReturnWrite.writeResp(response, APIResponse.fail(ResponseCode.TOKEN_INVALID));
     }
 }

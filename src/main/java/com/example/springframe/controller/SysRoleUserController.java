@@ -2,7 +2,7 @@ package com.example.springframe.controller;
 
 import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRoleUser;
-import com.example.springframe.rest.RestResult;
+import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysRoleUserService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -36,8 +36,8 @@ public class SysRoleUserController {
      */
     @GetMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public RestResult<PageInfo<SysRoleUser>> queryByPage(@RequestBody SysRoleUser sysRoleUser, SearchPage pageRequest) {
-        return RestResult.ok(this.sysRoleUserService.queryByPage(sysRoleUser, pageRequest));
+    public APIResponse<PageInfo<SysRoleUser>> queryByPage(@RequestBody SysRoleUser sysRoleUser, SearchPage pageRequest) {
+        return APIResponse.ok(this.sysRoleUserService.queryByPage(sysRoleUser, pageRequest));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysRoleUserController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public RestResult<SysRoleUser> queryById(@PathVariable("id") Integer id) {
-        return RestResult.ok(this.sysRoleUserService.queryById(id));
+    public APIResponse<SysRoleUser> queryById(@PathVariable("id") Integer id) {
+        return APIResponse.ok(this.sysRoleUserService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysRoleUserController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public RestResult<SysRoleUser> add(@RequestBody SysRoleUser sysRoleUser) {
-        return RestResult.ok(this.sysRoleUserService.insert(sysRoleUser));
+    public APIResponse<SysRoleUser> add(@RequestBody SysRoleUser sysRoleUser) {
+        return APIResponse.ok(this.sysRoleUserService.insert(sysRoleUser));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysRoleUserController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public RestResult<SysRoleUser> edit(@RequestBody SysRoleUser sysRoleUser) {
-        return RestResult.ok(this.sysRoleUserService.update(sysRoleUser));
+    public APIResponse<SysRoleUser> edit(@RequestBody SysRoleUser sysRoleUser) {
+        return APIResponse.ok(this.sysRoleUserService.update(sysRoleUser));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysRoleUserController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public RestResult<Boolean> deleteById(Integer id) {
-        return RestResult.ok(this.sysRoleUserService.deleteById(id));
+    public APIResponse<Boolean> deleteById(Integer id) {
+        return APIResponse.ok(this.sysRoleUserService.deleteById(id));
     }
 
 }

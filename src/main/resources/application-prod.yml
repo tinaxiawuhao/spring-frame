@@ -57,11 +57,9 @@ jwt:
   tokenHead: ""
   pub-uris:
     # 开放接口
-    - "/auth"
     - "/login"
-    - "/auth/register"
+    - "/register"
     # swagger文档接口
-    - "/"
     - "/**/swagger-resources"
     - "/**/api-docs"
     - "/**/doc.html"
@@ -69,7 +67,6 @@ jwt:
     - "/sys/healthCheck"
   static-sources:
     #静态资源
-    - "/"
     - "/*.html"
     - "/favicon.ico"
     - "/**/*.html"
@@ -77,5 +74,13 @@ jwt:
     - "/**/*.js"
 
 
-env:
-  type: ${PAYMENT_TYPE:prod}
+#mysqltomd
+mysqltomd:
+  # 文件下载路径
+  file-path:
+  # 排除表名称
+  exclude-table:
+  # 排除字段名称
+  exclude-field:
+  # 输出表名称
+  appoint-table:

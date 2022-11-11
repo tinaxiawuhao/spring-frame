@@ -2,7 +2,7 @@ package com.example.springframe.controller;
 
 import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysUser;
-import com.example.springframe.rest.RestResult;
+import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysUserService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -36,8 +36,8 @@ public class SysUserController {
      */
     @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public RestResult<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage searchPage) {
-        return RestResult.ok(this.sysUserService.queryByPage(sysUser, searchPage));
+    public APIResponse<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage searchPage) {
+        return APIResponse.ok(this.sysUserService.queryByPage(sysUser, searchPage));
     }
 
     /**
@@ -48,8 +48,8 @@ public class SysUserController {
      */
     @GetMapping(value = "/queryById/{id}")
     @ApiOperation(value = "根据id获取单条数据", notes = "根据id获取单条数据")
-    public RestResult<SysUser> queryById(@PathVariable("id") Integer id) {
-        return RestResult.ok(this.sysUserService.queryById(id));
+    public APIResponse<SysUser> queryById(@PathVariable("id") Integer id) {
+        return APIResponse.ok(this.sysUserService.queryById(id));
     }
 
     /**
@@ -60,8 +60,8 @@ public class SysUserController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public RestResult<SysUser> add(@RequestBody SysUser sysUser) {
-        return RestResult.ok(this.sysUserService.insert(sysUser));
+    public APIResponse<SysUser> add(@RequestBody SysUser sysUser) {
+        return APIResponse.ok(this.sysUserService.insert(sysUser));
     }
 
     /**
@@ -72,8 +72,8 @@ public class SysUserController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public RestResult<SysUser> edit(@RequestBody SysUser sysUser) {
-        return RestResult.ok(this.sysUserService.update(sysUser));
+    public APIResponse<SysUser> edit(@RequestBody SysUser sysUser) {
+        return APIResponse.ok(this.sysUserService.update(sysUser));
     }
 
     /**
@@ -84,8 +84,8 @@ public class SysUserController {
      */
     @DeleteMapping(value = "/deleteById")
     @ApiOperation(value = "根据主键删除数据", notes = "根据主键删除数据")
-    public RestResult<Boolean> deleteById(Integer id) {
-        return RestResult.ok(this.sysUserService.deleteById(id));
+    public APIResponse<Boolean> deleteById(Integer id) {
+        return APIResponse.ok(this.sysUserService.deleteById(id));
     }
 
 }

@@ -100,8 +100,10 @@ public class SysPermission extends Model<SysPermission> implements Serializable 
      */
     @ApiModelProperty(value = "修改者")
     private String updateBy;
-
-    @ApiModelProperty(value = "${column.comment}")
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 }
 

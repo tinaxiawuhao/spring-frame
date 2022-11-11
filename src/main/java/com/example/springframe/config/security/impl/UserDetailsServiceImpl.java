@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.springframe.entity.SysRole;
 import com.example.springframe.entity.SysRoleUser;
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.mapper.SysRoleMapper;
 import com.example.springframe.mapper.SysRoleUserMapper;
 import com.example.springframe.mapper.SysUserMapper;
-import com.example.springframe.rest.RestResult;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         SysUser user = userMapper.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, s));
         if (user == null) {
-            throw new InternalAuthenticationServiceException(RestResult.ResEnum.ACCOUNT_NOTFOUND.getValue());
+            throw new InternalAuthenticationServiceException(ResponseCode.ACCOUNT_NOTFOUND.getMsg());
         }
 
         List<SysRoleUser> appUserRoles = roleUserMapper.selectList(new LambdaQueryWrapper<SysRoleUser>().eq(SysRoleUser::getUserId, user.getId()));
