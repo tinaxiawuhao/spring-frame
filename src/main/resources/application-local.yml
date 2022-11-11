@@ -46,8 +46,8 @@ mybatis-plus:
 ## swagger自定义配置属性
 swagger:
   enabled: true
-  title: dt-commercialization在线接口平台
-  description: dt-commercialization服务相关接口
+  title: 在线接口平台
+  description: 服务相关接口
 
 
 

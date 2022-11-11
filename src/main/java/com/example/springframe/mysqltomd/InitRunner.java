@@ -85,7 +85,7 @@ public class InitRunner {
         }
 
         if (StringUtils.isBlank(filePath)){
-            filePath = "./desc/数据库文档(" + DateTime.now().toString("yyyy年MM月dd日HH时mm") + ").md";
+            filePath = "./desc/数据库文档.md";
         }
         System.out.println(filePath);
         File writeName = new File(filePath);
