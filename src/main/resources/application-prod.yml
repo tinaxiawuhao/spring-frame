@@ -54,7 +54,7 @@ jwt:
   header: Authorization
   secret: cuAihCz53DZRjZwbsGcZJ2Ai6At+T142uphtJMsk7iQ=
   expiration: 3600
-  tokenHead: ""
+  tokenHead: "Bearer "
   pub-uris:
     # 开放接口
     - "/login"

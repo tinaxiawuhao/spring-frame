@@ -1,5 +1,6 @@
 package com.example.springframe.config.security.login;
 
+import com.example.springframe.aop.log.SysLog;
 import com.example.springframe.config.security.impl.UserSecurityDetailImpl;
 import com.example.springframe.enumeration.State;
 import com.example.springframe.exception.basic.ResponseCode;
@@ -29,6 +30,7 @@ public class CustomizeAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     @SneakyThrows
+    @SysLog(title = "用户登录", value = "用户：{{#authentication.principal}}登录")
     public Authentication authenticate(Authentication authentication){
         //获取前端传过来的的username和password
         String username = authentication.getName();

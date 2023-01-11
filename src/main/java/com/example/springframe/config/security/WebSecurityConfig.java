@@ -134,7 +134,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/logout")//处理登出的url
                 .logoutSuccessHandler(getCustomizeLogOutSuccessHandler()) //登出成功后，调用登出成功处理器
                 .deleteCookies("JSESSIONID").and()//登出之后删除cookie
-            .headers().and()
+                // http 响应头追加请求唯一标记
+            .headers().addHeaderWriter(requestIdFilter::writeHeaders).and()
                 //异常处理（权限拒绝，登录失效）
             .exceptionHandling()
                 //匿名用户访问无权限资源时的异常处理
@@ -146,9 +147,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
                 // 设置session策略，无状态模式
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                // http 响应头追加请求唯一标记
-                .headers().addHeaderWriter(requestIdFilter::writeHeaders).and()
-                //添加登录body参数解析
                 //添加登录body参数解析
                 .addFilterBefore(userAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class)
