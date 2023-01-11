@@ -1,6 +1,7 @@
 package com.example.springframe.config.security.handler;
 
 
+import com.example.springframe.config.jwt.JwtPropertiesConfig;
 import com.example.springframe.config.jwt.JwtService;
 import com.example.springframe.config.jwt.UserClaims;
 import com.example.springframe.exception.basic.APIResponse;
@@ -24,11 +25,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Resource
 	private CurrentUserInfo currentUserInfo;
 
+	@Resource
+	private JwtPropertiesConfig jwtPropertiesConfig;
+
 	@Override
 	@SneakyThrows
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
 		final String token = jwtService.generateToken(new UserClaims(currentUserInfo.getSysUser(), currentUserInfo.getRoles()));
-		ReturnWrite.writeResp(response, APIResponse.ok(token));
+		ReturnWrite.writeResp(response, APIResponse.ok(jwtPropertiesConfig.getTokenHead() + token));
 	}
 
 }
