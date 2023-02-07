@@ -4,6 +4,8 @@ import com.example.springframe.disruptor.ServerApplication;
 import com.example.springframe.disruptor.packet.DataPacket;
 import com.example.springframe.disruptor.packet.PacketType;
 import com.example.springframe.exception.basic.APIResponse;
+import com.example.springframe.springEvent.CustomEvent;
+import com.example.springframe.utils.ApplicationContextProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,14 @@ public class TestController {
                 .type(PacketType.REQUEST).body("{}")
                 .build();
         serverApplication.handler(build);
+        return APIResponse.ok("操作成功");
+    }
+
+    @GetMapping("/listener")
+    @ApiOperation(value = "测试spring监听事件",notes = "测试spring监听事件")
+    public APIResponse<String> hello(){
+        System.out.println("事件开始发布消息："+System.currentTimeMillis());
+        ApplicationContextProvider.publishEvent(new CustomEvent("你好啊"));
         return APIResponse.ok("操作成功");
     }
 
