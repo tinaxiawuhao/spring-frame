@@ -137,14 +137,23 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.0-jre</version>
+            <version>28.2-jre</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/de.schlichtherle.truelicense/truelicense-core -->
         <dependency>
             <groupId>de.schlichtherle.truelicense</groupId>
             <artifactId>truelicense-core</artifactId>
             <version>1.33</version>
         </dependency>
+
+        <!--disruptor begin-->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <!--disruptor end-->
     </dependencies>
 
     <build>
