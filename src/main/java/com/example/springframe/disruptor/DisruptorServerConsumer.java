@@ -1,12 +1,12 @@
-package com.example.springframe.distruptor;
+package com.example.springframe.disruptor;
 
 
-import com.example.springframe.distruptor.base.BaseEvent;
-import com.example.springframe.distruptor.base.MessageConsumer;
-import com.example.springframe.distruptor.handler.AbstractBlockHandler;
-import com.example.springframe.distruptor.handler.server.FetchRequestHandler;
-import com.example.springframe.distruptor.packet.DataPacket;
-import com.example.springframe.distruptor.packet.PacketType;
+import com.example.springframe.disruptor.base.BaseEvent;
+import com.example.springframe.disruptor.base.MessageConsumer;
+import com.example.springframe.disruptor.handler.AbstractBlockHandler;
+import com.example.springframe.disruptor.handler.server.FetchRequestHandler;
+import com.example.springframe.disruptor.packet.DataPacket;
+import com.example.springframe.disruptor.packet.PacketType;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

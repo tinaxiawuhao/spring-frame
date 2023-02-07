@@ -1,19 +1,14 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.distruptor.ServerApplication;
-import com.example.springframe.distruptor.packet.DataPacket;
-import com.example.springframe.distruptor.packet.PacketType;
-import com.example.springframe.entity.SysUser;
-import com.example.springframe.entity.vo.LoginVO;
-import com.example.springframe.entity.vo.RigistUserVO;
+import com.example.springframe.disruptor.ServerApplication;
+import com.example.springframe.disruptor.packet.DataPacket;
+import com.example.springframe.disruptor.packet.PacketType;
 import com.example.springframe.exception.basic.APIResponse;
-import com.example.springframe.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 @Api(tags = "测试功能")
 @RestController

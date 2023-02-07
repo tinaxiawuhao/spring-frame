@@ -1,6 +1,6 @@
-package com.example.springframe.distruptor.base;
+package com.example.springframe.disruptor.base;
 
-import com.example.springframe.distruptor.packet.DataPacket;
+import com.example.springframe.disruptor.packet.DataPacket;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

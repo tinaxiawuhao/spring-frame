@@ -1,4 +1,4 @@
-package com.example.springframe.distruptor.packet;
+package com.example.springframe.disruptor.packet;
 
 /**
  * packetType大于0时是请求类型，小于0时为响应类型

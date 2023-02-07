@@ -1,4 +1,4 @@
-package com.example.springframe.distruptor.base;
+package com.example.springframe.disruptor.base;
 
 import com.lmax.disruptor.EventFactory;
 

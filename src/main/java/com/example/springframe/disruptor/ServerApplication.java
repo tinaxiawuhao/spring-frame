@@ -1,9 +1,9 @@
-package com.example.springframe.distruptor;
+package com.example.springframe.disruptor;
 
 
-import com.example.springframe.distruptor.base.BaseEvent;
-import com.example.springframe.distruptor.base.MessageProducer;
-import com.example.springframe.distruptor.packet.DataPacket;
+import com.example.springframe.disruptor.base.BaseEvent;
+import com.example.springframe.disruptor.base.MessageProducer;
+import com.example.springframe.disruptor.packet.DataPacket;
 import com.example.springframe.utils.ApplicationContextProvider;
 import org.springframework.stereotype.Component;
 

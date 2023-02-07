@@ -1,7 +1,7 @@
-package com.example.springframe.distruptor;
+package com.example.springframe.disruptor;
 
 
-import com.example.springframe.distruptor.base.BaseEvent;
+import com.example.springframe.disruptor.base.BaseEvent;
 import com.example.springframe.utils.ApplicationContextProvider;
 import com.lmax.disruptor.EventHandler;
 import lombok.extern.slf4j.Slf4j;

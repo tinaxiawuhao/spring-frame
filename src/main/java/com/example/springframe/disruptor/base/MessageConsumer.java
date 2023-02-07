@@ -1,4 +1,4 @@
-package com.example.springframe.distruptor.base;
+package com.example.springframe.disruptor.base;
 
 
 public interface MessageConsumer {

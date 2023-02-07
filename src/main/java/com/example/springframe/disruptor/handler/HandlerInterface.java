@@ -1,7 +1,7 @@
-package com.example.springframe.distruptor.handler;
+package com.example.springframe.disruptor.handler;
 
 
-import com.example.springframe.distruptor.packet.DataPacket;
+import com.example.springframe.disruptor.packet.DataPacket;
 
 /**
  * 业务处理器接口

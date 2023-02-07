@@ -1,4 +1,4 @@
-package com.example.springframe.distruptor.bady;
+package com.example.springframe.disruptor.bady;
 
 
 import lombok.AllArgsConstructor;
