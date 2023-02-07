@@ -13,7 +13,7 @@ import com.example.springframe.entity.SysUser;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysLogService;
 import com.example.springframe.utils.CurrentUserInfo;
-import com.example.springframe.utils.ThreadPoolUtil;
+import com.example.springframe.utils.util.ThreadPoolUtil;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
