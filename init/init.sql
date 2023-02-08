@@ -24,11 +24,9 @@ DROP TABLE IF EXISTS `sys_role_permission`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sys_role_permission` (
                                        `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                                       `code` varchar(36) NOT NULL COMMENT '标识主键',
                                        `permission_id` int(11) DEFAULT NULL COMMENT '权限id',
                                        `role_id` int(11) DEFAULT NULL COMMENT '角色id',
-                                       PRIMARY KEY (`id`) USING BTREE,
-                                       KEY `code_index` (`code`) USING BTREE COMMENT '简单索引'
+                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色权限关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,11 +85,9 @@ DROP TABLE IF EXISTS `sys_role_user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sys_role_user` (
                                  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-                                 `code` varchar(36) NOT NULL COMMENT '标识主键',
                                  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
                                  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
-                                 PRIMARY KEY (`id`) USING BTREE,
-                                 KEY `code_index` (`code`) USING BTREE COMMENT '简单索引'
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,7 +97,7 @@ CREATE TABLE `sys_role_user` (
 
 LOCK TABLES `sys_role_user` WRITE;
 /*!40000 ALTER TABLE `sys_role_user` DISABLE KEYS */;
-INSERT INTO `sys_role_user` VALUES (1,'f91bf244-67d5-4da7-ba82-c8289fca4a84',1,1);
+INSERT INTO `sys_role_user` VALUES (1,1,1);
 /*!40000 ALTER TABLE `sys_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 

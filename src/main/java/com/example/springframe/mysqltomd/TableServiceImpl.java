@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.springframe.mapper.IMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,15 +18,14 @@ public class TableServiceImpl implements TableService {
 
     @Autowired
     private IMapper iMapper;
-    @Value("${spring.datasource.url}")
-    private String url;
-    @Value("${mysqltomd.exclude-table}")
-    private String excludeTable;
-    @Value("${mysqltomd.appoint-table}")
-    private String appointTable;
+    @Resource
+    private DataSourceProperties dataSourceProperties;
+    @Resource
+    private MysqltomdConfig mysqltomdConfig;
+
     @Override
     public List<TableInfo> getTableList() {
-        String[] split = url.split("\\?");
+        String[] split = dataSourceProperties.getUrl().split("\\?");
         String s = split[0];
         String[] split1 = s.split("/");
         String sql = "SELECT\n" +
@@ -39,13 +40,13 @@ public class TableServiceImpl implements TableService {
         for (JSONObject jsonObject : jsonObjects) {
             list.add(JSON.toJavaObject(jsonObject, TableInfo.class));
         }
-        if (excludeTable != null && !"".equals(excludeTable)){
-            ArrayList<String> strings = new ArrayList<>(Arrays.asList(excludeTable.split(",")));
+        if (mysqltomdConfig.getExcludeTable() != null && !"".equals(mysqltomdConfig.getExcludeTable())){
+            ArrayList<String> strings = new ArrayList<>(Arrays.asList(mysqltomdConfig.getExcludeTable().split(",")));
             list.removeIf(temp -> strings.contains(temp.getTableName()));
         }
 
-        if (appointTable != null && !"".equals(appointTable)){
-            ArrayList<String> strings = new ArrayList<>(Arrays.asList(appointTable.split(",")));
+        if (mysqltomdConfig.getAppointTable() != null && !"".equals(mysqltomdConfig.getAppointTable())){
+            ArrayList<String> strings = new ArrayList<>(Arrays.asList(mysqltomdConfig.getAppointTable().split(",")));
             list.removeIf(temp -> !strings.contains(temp.getTableName()));
         }
         return list;
@@ -53,7 +54,7 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public List<FieldInfo> getFieldInfoList(String tableName) {
-        String[] split = url.split("\\?");
+        String[] split = dataSourceProperties.getUrl().split("\\?");
         String s = split[0];
         String[] split1 = s.split("/");
         String sql = "SELECT\n" +

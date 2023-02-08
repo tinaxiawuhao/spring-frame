@@ -34,11 +34,6 @@ public class SysRolePermission extends Model<SysRolePermission> implements Seria
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
-     * 标识主键
-     */
-    @ApiModelProperty(value = "标识主键")
-    private String code;
-    /**
      * 权限id
      */
     @ApiModelProperty(value = "权限id")

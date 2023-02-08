@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -21,10 +22,9 @@ public class InitRunner {
 
     @Autowired
     private TableService tableService;
-    @Value("${mysqltomd.file-path}")
-    private String filePath;
-    @Value("${mysqltomd.exclude-field}")
-    private String excludeField;
+
+    @Resource
+    private MysqltomdConfig mysqltomdConfig;
 
     public void build() throws IOException {
         List<String> list = new ArrayList<>();
@@ -33,8 +33,8 @@ public class InitRunner {
         list.add("fieldType");
         list.add("defaultValue");
         list.add("isEmpty");
-        if (excludeField != null && !"".equals(excludeField)){
-            ArrayList<String> strings = new ArrayList<>(Arrays.asList(excludeField.split(",")));
+        if (mysqltomdConfig.getExcludeField() != null && !"".equals(mysqltomdConfig.getExcludeField())){
+            ArrayList<String> strings = new ArrayList<>(Arrays.asList(mysqltomdConfig.getExcludeField().split(",")));
             list.removeIf(strings::contains);
         }
 
@@ -84,11 +84,11 @@ public class InitRunner {
             stringBuilder.append('\n');
         }
 
-        if (StringUtils.isBlank(filePath)){
-            filePath = "./desc/数据库文档.md";
+        if (StringUtils.isBlank(mysqltomdConfig.getFilePath())){
+            mysqltomdConfig.setFilePath("./desc/数据库文档.md");
         }
-        System.out.println(filePath);
-        File writeName = new File(filePath);
+        System.out.println(mysqltomdConfig.getFilePath());
+        File writeName = new File(mysqltomdConfig.getFilePath());
         boolean newFile = writeName.createNewFile();
         FileWriter writer = new FileWriter(writeName);
         BufferedWriter out = new BufferedWriter(writer);

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 
 @Api(tags = "测试功能")
 @RestController
-@RequestMapping()
+@RequestMapping("v1")
 public class TestController {
 
     /**
@@ -39,6 +39,12 @@ public class TestController {
         System.out.println("事件开始发布消息："+System.currentTimeMillis());
         ApplicationContextProvider.publishEvent(new CustomEvent("你好啊"));
         return APIResponse.ok("操作成功");
+    }
+
+    @GetMapping("/data/reverseControl/rights")
+    @ApiOperation(value = "反控测试",notes = "反控测试")
+    public APIResponse<String> reverseControl(){
+        return APIResponse.ok("73ec99da5116226170cdf4cfd885b55e");
     }
 
 }
