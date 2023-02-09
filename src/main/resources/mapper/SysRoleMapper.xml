@@ -9,15 +9,6 @@
         <result property="roleDescription" column="role_description" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="SysRoleMap">
-        select id,
-               code,
-               role,
-               role_description
-        from sys_role
-        where id = #{id}
-    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SysRoleMap">
@@ -40,31 +31,6 @@
         </where>
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
-        select count(1)
-        from sys_role
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="code != null and code != ''">
-                and code = #{code}
-            </if>
-            <if test="role != null and role != ''">
-                and role = #{role}
-            </if>
-            <if test="roleDescription != null and roleDescription != ''">
-                and role_description = #{roleDescription}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role(code, role, role_description)
-        values (#{code}, #{role}, #{roleDescription})
-    </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into sys_role(code, role, role_description)
@@ -74,41 +40,22 @@
         </foreach>
     </insert>
 
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role(code, role, role_description)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.code}, #{entity.role}, #{entity.roleDescription})
+    <!--需要通过在数据库连接URL中指定allowMultiQueries参数值为true告诉数据库以支持”;"号分隔的多条语句的执行-->
+    <update id="updateBatch">
+        <foreach collection="entities" item="entity" separator=";">
+            update sys_role
+            <set>
+                <if test="entity.code != null and entity.code != ''">
+                    code = #{entity.code},
+                </if>
+                <if test="entity.role != null and entity.role != ''">
+                    role = #{entity.role},
+                </if>
+                <if test="entity.roleDescription != null and entity.roleDescription != ''">
+                    role_description = #{entity.roleDescription},
+                </if>
+            </set>
+            where id = #{entity.id}
         </foreach>
-        on duplicate key update
-        code = values(code),
-        role = values(role),
-        role_description = values(role_description)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update sys_role
-        <set>
-            <if test="code != null and code != ''">
-                code = #{code},
-            </if>
-            <if test="role != null and role != ''">
-                role = #{role},
-            </if>
-            <if test="roleDescription != null and roleDescription != ''">
-                role_description = #{roleDescription},
-            </if>
-        </set>
-        where id = #{id}
     </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from sys_role
-        where id = #{id}
-    </delete>
-
 </mapper>
-

@@ -4,27 +4,23 @@
 
     <resultMap type="com.example.springframe.entity.SysRolePermission" id="SysRolePermissionMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="SysRolePermissionMap">
-        select id,
-               permission_id,
-               role_id
-        from sys_role_permission
-        where id = #{id}
-    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SysRolePermissionMap">
         select
-        id, permission_id, role_id
+        id, code, permission_id, role_id
         from sys_role_permission
         <where>
             <if test="id != null">
                 and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
             </if>
             <if test="permissionId != null">
                 and permission_id = #{permissionId}
@@ -35,68 +31,31 @@
         </where>
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
-        select count(1)
-        from sys_role_permission
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="permissionId != null">
-                and permission_id = #{permissionId}
-            </if>
-            <if test="roleId != null">
-                and role_id = #{roleId}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role_permission(permission_id, role_id)
-        values ( #{permissionId}, #{roleId})
-    </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role_permission( permission_id, role_id)
+        insert into sys_role_permission(code, permission_id, role_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            ( #{entity.permissionId}, #{entity.roleId})
+            (#{entity.code}, #{entity.permissionId}, #{entity.roleId})
         </foreach>
     </insert>
 
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role_permission( permission_id, role_id)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            ( #{entity.permissionId}, #{entity.roleId})
+    <!--需要通过在数据库连接URL中指定allowMultiQueries参数值为true告诉数据库以支持”;"号分隔的多条语句的执行-->
+    <update id="updateBatch">
+        <foreach collection="entities" item="entity" separator=";">
+            update sys_role_permission
+            <set>
+                <if test="entity.code != null and entity.code != ''">
+                    code = #{entity.code},
+                </if>
+                <if test="entity.permissionId != null">
+                    permission_id = #{entity.permissionId},
+                </if>
+                <if test="entity.roleId != null">
+                    role_id = #{entity.roleId},
+                </if>
+            </set>
+            where id = #{entity.id}
         </foreach>
-        on duplicate key update
-        permission_id = values(permission_id),
-        role_id = values(role_id)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update sys_role_permission
-        <set>
-            <if test="permissionId != null">
-                permission_id = #{permissionId},
-            </if>
-            <if test="roleId != null">
-                role_id = #{roleId},
-            </if>
-        </set>
-        where id = #{id}
     </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from sys_role_permission
-        where id = #{id}
-    </delete>
-
 </mapper>
-

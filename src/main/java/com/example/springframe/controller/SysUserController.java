@@ -1,21 +1,22 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysUserService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 用户详情(SysUser)表控制层
  *
  * @author makejava
- * @since 2022-11-03 11:03:50
+ * @since 2023-02-09 09:41:41
  */
 @Api(tags = "用户详情")
 @RestController
@@ -31,13 +32,13 @@ public class SysUserController {
      * 分页查询
      *
      * @param sysUser     筛选条件
-     * @param searchPage 分页对象
+     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public APIResponse<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage searchPage) {
-        return APIResponse.ok(this.sysUserService.queryByPage(sysUser, searchPage));
+    public APIResponse<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage pageRequest) {
+        return APIResponse.ok(this.sysUserService.queryByPage(sysUser, pageRequest));
     }
 
     /**
@@ -60,7 +61,7 @@ public class SysUserController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public APIResponse<SysUser> add(@RequestBody SysUser sysUser) {
+    public APIResponse<SysUser> add(@RequestBody @Valid SysUser sysUser) {
         return APIResponse.ok(this.sysUserService.insert(sysUser));
     }
 
@@ -72,7 +73,7 @@ public class SysUserController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public APIResponse<SysUser> edit(@RequestBody SysUser sysUser) {
+    public APIResponse<SysUser> edit(@RequestBody @Valid SysUser sysUser) {
         return APIResponse.ok(this.sysUserService.update(sysUser));
     }
 

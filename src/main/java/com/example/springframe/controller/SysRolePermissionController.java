@@ -1,23 +1,24 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRolePermission;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysRolePermissionService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * (SysRolePermission)表控制层
  *
  * @author makejava
- * @since 2022-11-03 11:03:48
+ * @since 2023-02-09 09:41:41
  */
-@Api(tags = "角色权限关系")
+@Api(tags = "")
 @RestController
 @RequestMapping("sysRolePermission")
 public class SysRolePermissionController {
@@ -34,7 +35,7 @@ public class SysRolePermissionController {
      * @param pageRequest       分页对象
      * @return 查询结果
      */
-    @GetMapping(value = "/queryByPage")
+    @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
     public APIResponse<PageInfo<SysRolePermission>> queryByPage(@RequestBody SysRolePermission sysRolePermission, SearchPage pageRequest) {
         return APIResponse.ok(this.sysRolePermissionService.queryByPage(sysRolePermission, pageRequest));
@@ -60,7 +61,7 @@ public class SysRolePermissionController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public APIResponse<SysRolePermission> add(@RequestBody SysRolePermission sysRolePermission) {
+    public APIResponse<SysRolePermission> add(@RequestBody @Valid SysRolePermission sysRolePermission) {
         return APIResponse.ok(this.sysRolePermissionService.insert(sysRolePermission));
     }
 
@@ -72,7 +73,7 @@ public class SysRolePermissionController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public APIResponse<SysRolePermission> edit(@RequestBody SysRolePermission sysRolePermission) {
+    public APIResponse<SysRolePermission> edit(@RequestBody @Valid SysRolePermission sysRolePermission) {
         return APIResponse.ok(this.sysRolePermissionService.update(sysRolePermission));
     }
 

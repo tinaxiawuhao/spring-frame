@@ -1,23 +1,24 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRoleUser;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysRoleUserService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * (SysRoleUser)表控制层
  *
  * @author makejava
- * @since 2022-11-03 11:03:49
+ * @since 2023-02-09 09:41:41
  */
-@Api(tags = "用户角色关系")
+@Api(tags = "")
 @RestController
 @RequestMapping("sysRoleUser")
 public class SysRoleUserController {
@@ -34,7 +35,7 @@ public class SysRoleUserController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping(value = "/queryByPage")
+    @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
     public APIResponse<PageInfo<SysRoleUser>> queryByPage(@RequestBody SysRoleUser sysRoleUser, SearchPage pageRequest) {
         return APIResponse.ok(this.sysRoleUserService.queryByPage(sysRoleUser, pageRequest));
@@ -60,7 +61,7 @@ public class SysRoleUserController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public APIResponse<SysRoleUser> add(@RequestBody SysRoleUser sysRoleUser) {
+    public APIResponse<SysRoleUser> add(@RequestBody @Valid SysRoleUser sysRoleUser) {
         return APIResponse.ok(this.sysRoleUserService.insert(sysRoleUser));
     }
 
@@ -72,7 +73,7 @@ public class SysRoleUserController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public APIResponse<SysRoleUser> edit(@RequestBody SysRoleUser sysRoleUser) {
+    public APIResponse<SysRoleUser> edit(@RequestBody @Valid SysRoleUser sysRoleUser) {
         return APIResponse.ok(this.sysRoleUserService.update(sysRoleUser));
     }
 

@@ -1,23 +1,24 @@
 package com.example.springframe.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRole;
 import com.example.springframe.mapper.SysRoleMapper;
 import com.example.springframe.service.SysRoleService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageInfo;
+import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * (SysRole)表服务实现类
+ * 角色详情(SysRole)表服务实现类
  *
  * @author makejava
- * @since 2022-11-03 11:03:48
+ * @since 2023-02-09 09:58:17
  */
 @Service("sysRoleService")
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
@@ -32,7 +33,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public SysRole queryById(Integer id) {
-        return this.sysRoleMapper.queryById(id);
+        return this.sysRoleMapper.selectById(id);
     }
 
     /**
@@ -45,8 +46,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public PageInfo<SysRole> queryByPage(SysRole sysRole, SearchPage pageRequest) {
         PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysRole> roleUserList = this.sysRoleMapper.queryAllByLimit(sysRole);
-        return new PageInfo<>(roleUserList);
+        List<SysRole> list = this.sysRoleMapper.queryAllByLimit(sysRole);
+        return new PageInfo<>(list);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     @Transactional
     public SysRole update(SysRole sysRole) {
-        this.sysRoleMapper.update(sysRole);
+        this.sysRoleMapper.update(sysRole, Wrappers.<SysRole>lambdaUpdate().eq(SysRole::getId, sysRole.getId()));
         return this.queryById(sysRole.getId());
     }
 

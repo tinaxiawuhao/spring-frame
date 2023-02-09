@@ -1,17 +1,15 @@
 package com.example.springframe.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysUser;
-import com.example.springframe.entity.vo.RigistUserVO;
-import com.example.springframe.exception.basic.APIResponse;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.example.springframe.entity.SearchPage;
 
 /**
  * 用户详情(SysUser)表服务接口
  *
  * @author makejava
- * @since 2022-11-03 11:03:51
+ * @since 2023-02-09 09:41:04
  */
 public interface SysUserService extends IService<SysUser> {
 
@@ -56,10 +54,4 @@ public interface SysUserService extends IService<SysUser> {
      */
     boolean deleteById(Integer id);
 
-    /**
-     * 注册用户
-     * @param addedUser 新增用户信息
-     * @return SysUser
-     */
-    SysUser register(RigistUserVO addedUser);
 }

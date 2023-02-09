@@ -21,27 +21,6 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="SysUserMap">
-        select id,
-               code,
-               username,
-               nick_name,
-               password,
-               last_password_reset_date,
-               user_type,
-               mobile,
-               email,
-               sex,
-               state,
-               deleted,
-               create_by,
-               create_time,
-               update_by,
-               update_time
-        from sys_user
-        where id = #{id}
-    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SysUserMap">
@@ -101,69 +80,6 @@
         </where>
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
-        select count(1)
-        from sys_user
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="code != null and code != ''">
-                and code = #{code}
-            </if>
-            <if test="username != null and username != ''">
-                and username = #{username}
-            </if>
-            <if test="nickName != null and nickName != ''">
-                and nick_name = #{nickName}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
-            </if>
-            <if test="lastPasswordResetDate != null">
-                and last_password_reset_date = #{lastPasswordResetDate}
-            </if>
-            <if test="userType != null">
-                and user_type = #{userType}
-            </if>
-            <if test="mobile != null and mobile != ''">
-                and mobile = #{mobile}
-            </if>
-            <if test="email != null and email != ''">
-                and email = #{email}
-            </if>
-            <if test="sex != null">
-                and sex = #{sex}
-            </if>
-            <if test="state != null">
-                and state = #{state}
-            </if>
-            <if test="deleted != null">
-                and deleted = #{deleted}
-            </if>
-            <if test="createBy != null and createBy != ''">
-                and create_by = #{createBy}
-            </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
-            </if>
-            <if test="updateBy != null and updateBy != ''">
-                and update_by = #{updateBy}
-            </if>
-            <if test="updateTime != null">
-                and update_time = #{updateTime}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_user(code, username, nick_name, password, last_password_reset_date, user_type, mobile, email,
-                             sex, state, deleted, create_by, create_time, update_by, update_time)
-        values (#{code}, #{username}, #{nickName}, #{password}, #{lastPasswordResetDate}, #{userType}, #{mobile},
-                #{email}, #{sex}, #{state}, #{deleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
-    </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into sys_user(code, username, nick_name, password, last_password_reset_date, user_type, mobile, email,
@@ -177,93 +93,58 @@
         </foreach>
     </insert>
 
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_user(code, username, nick_name, password, last_password_reset_date, user_type, mobile, email,
-        sex, state, deleted, create_by, create_time, update_by, update_time)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.code}, #{entity.username}, #{entity.nickName}, #{entity.password},
-            #{entity.lastPasswordResetDate}, #{entity.userType}, #{entity.mobile}, #{entity.email}, #{entity.sex},
-            #{entity.state}, #{entity.deleted}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy},
-            #{entity.updateTime})
+    <!--需要通过在数据库连接URL中指定allowMultiQueries参数值为true告诉数据库以支持”;"号分隔的多条语句的执行-->
+    <update id="updateBatch">
+        <foreach collection="entities" item="entity" separator=";">
+            update sys_user
+            <set>
+                <if test="entity.code != null and entity.code != ''">
+                    code = #{entity.code},
+                </if>
+                <if test="entity.username != null and entity.username != ''">
+                    username = #{entity.username},
+                </if>
+                <if test="entity.nickName != null and entity.nickName != ''">
+                    nick_name = #{entity.nickName},
+                </if>
+                <if test="entity.password != null and entity.password != ''">
+                    password = #{entity.password},
+                </if>
+                <if test="entity.lastPasswordResetDate != null">
+                    last_password_reset_date = #{entity.lastPasswordResetDate},
+                </if>
+                <if test="entity.userType != null">
+                    user_type = #{entity.userType},
+                </if>
+                <if test="entity.mobile != null and entity.mobile != ''">
+                    mobile = #{entity.mobile},
+                </if>
+                <if test="entity.email != null and entity.email != ''">
+                    email = #{entity.email},
+                </if>
+                <if test="entity.sex != null">
+                    sex = #{entity.sex},
+                </if>
+                <if test="entity.state != null">
+                    state = #{entity.state},
+                </if>
+                <if test="entity.deleted != null">
+                    deleted = #{entity.deleted},
+                </if>
+                <if test="entity.createBy != null and entity.createBy != ''">
+                    create_by = #{entity.createBy},
+                </if>
+                <if test="entity.createTime != null">
+                    create_time = #{entity.createTime},
+                </if>
+                <if test="entity.updateBy != null and entity.updateBy != ''">
+                    update_by = #{entity.updateBy},
+                </if>
+                <if test="entity.updateTime != null">
+                    update_time = #{entity.updateTime},
+                </if>
+            </set>
+            where id = #{entity.id}
         </foreach>
-        on duplicate key update
-        code = values(code),
-        username = values(username),
-        nick_name = values(nick_name),
-        password = values(password),
-        last_password_reset_date = values(last_password_reset_date),
-        user_type = values(user_type),
-        mobile = values(mobile),
-        email = values(email),
-        sex = values(sex),
-        state = values(state),
-        deleted = values(deleted),
-        create_by = values(create_by),
-        create_time = values(create_time),
-        update_by = values(update_by),
-        update_time = values(update_time)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update sys_user
-        <set>
-            <if test="code != null and code != ''">
-                code = #{code},
-            </if>
-            <if test="username != null and username != ''">
-                username = #{username},
-            </if>
-            <if test="nickName != null and nickName != ''">
-                nick_name = #{nickName},
-            </if>
-            <if test="password != null and password != ''">
-                password = #{password},
-            </if>
-            <if test="lastPasswordResetDate != null">
-                last_password_reset_date = #{lastPasswordResetDate},
-            </if>
-            <if test="userType != null">
-                user_type = #{userType},
-            </if>
-            <if test="mobile != null and mobile != ''">
-                mobile = #{mobile},
-            </if>
-            <if test="email != null and email != ''">
-                email = #{email},
-            </if>
-            <if test="sex != null">
-                sex = #{sex},
-            </if>
-            <if test="state != null">
-                state = #{state},
-            </if>
-            <if test="deleted != null">
-                deleted = #{deleted},
-            </if>
-            <if test="createBy != null and createBy != ''">
-                create_by = #{createBy},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
-            </if>
-            <if test="updateBy != null and updateBy != ''">
-                update_by = #{updateBy},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
-            </if>
-        </set>
-        where id = #{id}
     </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from sys_user
-        where id = #{id}
-    </delete>
-
 </mapper>
-

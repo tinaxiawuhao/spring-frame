@@ -6,27 +6,28 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * (SysRoleUser)实体类
  *
  * @author makejava
- * @since 2022-11-03 11:03:50
+ * @since 2023-02-09 09:42:42
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_role_user")
-@ApiModel(value = "SysRoleUser对象", description = "用户角色关系")
+@ApiModel(value = "SysRoleUser对象", description = "")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
-    private static final long serialVersionUID = 845882205128249998L;
+    private static final long serialVersionUID = -17325973699498996L;
     /**
      * 主键
      */
@@ -34,14 +35,21 @@ public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
+     * 标识主键
+     */
+    @ApiModelProperty(value = "标识主键", required = true)
+    @NotNull(message = "标识主键不能为空")
+    private String code;
+    /**
      * 用户id
      */
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id", required = true)
+    @NotNull(message = "用户id不能为空")
     private Integer userId;
     /**
      * 角色id
      */
-    @ApiModelProperty(value = "角色id")
+    @ApiModelProperty(value = "角色id", required = true)
+    @NotNull(message = "角色id不能为空")
     private Integer roleId;
 }
-

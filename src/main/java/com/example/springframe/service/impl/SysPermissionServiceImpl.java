@@ -1,14 +1,15 @@
 package com.example.springframe.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysPermission;
 import com.example.springframe.mapper.SysPermissionMapper;
 import com.example.springframe.service.SysPermissionService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageInfo;
+import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * 权限详情(SysPermission)表服务实现类
  *
  * @author makejava
- * @since 2022-11-03 11:03:47
+ * @since 2023-02-09 09:58:17
  */
 @Service("sysPermissionService")
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
@@ -32,7 +33,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      */
     @Override
     public SysPermission queryById(Integer id) {
-        return this.sysPermissionMapper.queryById(id);
+        return this.sysPermissionMapper.selectById(id);
     }
 
     /**
@@ -45,8 +46,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public PageInfo<SysPermission> queryByPage(SysPermission sysPermission, SearchPage pageRequest) {
         PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysPermission> permissionList = this.sysPermissionMapper.queryAllByLimit(sysPermission);
-        return new PageInfo<>(permissionList);
+        List<SysPermission> list = this.sysPermissionMapper.queryAllByLimit(sysPermission);
+        return new PageInfo<>(list);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     @Transactional
     public SysPermission update(SysPermission sysPermission) {
-        this.sysPermissionMapper.update(sysPermission);
+        this.sysPermissionMapper.update(sysPermission, Wrappers.<SysPermission>lambdaUpdate().eq(SysPermission::getId, sysPermission.getId()));
         return this.queryById(sysPermission.getId());
     }
 

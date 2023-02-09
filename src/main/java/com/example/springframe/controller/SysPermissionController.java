@@ -1,21 +1,22 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysPermission;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysPermissionService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 权限详情(SysPermission)表控制层
  *
  * @author makejava
- * @since 2022-11-03 11:03:45
+ * @since 2023-02-09 09:44:52
  */
 @Api(tags = "权限详情")
 @RestController
@@ -34,7 +35,7 @@ public class SysPermissionController {
      * @param pageRequest   分页对象
      * @return 查询结果
      */
-    @GetMapping(value = "/queryByPage")
+    @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
     public APIResponse<PageInfo<SysPermission>> queryByPage(@RequestBody SysPermission sysPermission, SearchPage pageRequest) {
         return APIResponse.ok(this.sysPermissionService.queryByPage(sysPermission, pageRequest));
@@ -60,7 +61,7 @@ public class SysPermissionController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public APIResponse<SysPermission> add(@RequestBody SysPermission sysPermission) {
+    public APIResponse<SysPermission> add(@RequestBody @Valid SysPermission sysPermission) {
         return APIResponse.ok(this.sysPermissionService.insert(sysPermission));
     }
 
@@ -72,7 +73,7 @@ public class SysPermissionController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public APIResponse<SysPermission> edit(@RequestBody SysPermission sysPermission) {
+    public APIResponse<SysPermission> edit(@RequestBody @Valid SysPermission sysPermission) {
         return APIResponse.ok(this.sysPermissionService.update(sysPermission));
     }
 

@@ -1,23 +1,24 @@
 package com.example.springframe.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRoleUser;
 import com.example.springframe.mapper.SysRoleUserMapper;
 import com.example.springframe.service.SysRoleUserService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageInfo;
+import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * (SysRoleUser)表服务实现类
+ * 用户角色关系(SysRoleUser)表服务实现类
  *
  * @author makejava
- * @since 2022-11-03 11:03:50
+ * @since 2023-02-09 09:58:17
  */
 @Service("sysRoleUserService")
 public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRoleUser> implements SysRoleUserService {
@@ -32,7 +33,7 @@ public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRo
      */
     @Override
     public SysRoleUser queryById(Integer id) {
-        return this.sysRoleUserMapper.queryById(id);
+        return this.sysRoleUserMapper.selectById(id);
     }
 
     /**
@@ -45,8 +46,8 @@ public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRo
     @Override
     public PageInfo<SysRoleUser> queryByPage(SysRoleUser sysRoleUser, SearchPage pageRequest) {
         PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysRoleUser> roleUserList = this.sysRoleUserMapper.queryAllByLimit(sysRoleUser);
-        return new PageInfo<>(roleUserList);
+        List<SysRoleUser> list = this.sysRoleUserMapper.queryAllByLimit(sysRoleUser);
+        return new PageInfo<>(list);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRo
     @Override
     @Transactional
     public SysRoleUser update(SysRoleUser sysRoleUser) {
-        this.sysRoleUserMapper.update(sysRoleUser);
+        this.sysRoleUserMapper.update(sysRoleUser, Wrappers.<SysRoleUser>lambdaUpdate().eq(SysRoleUser::getId, sysRoleUser.getId()));
         return this.queryById(sysRoleUser.getId());
     }
 

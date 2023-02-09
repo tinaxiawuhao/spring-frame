@@ -1,23 +1,24 @@
 package com.example.springframe.controller;
 
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRole;
+import com.example.springframe.entity.SearchPage;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysRoleService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * (SysRole)表控制层
  *
  * @author makejava
- * @since 2022-11-03 11:03:47
+ * @since 2023-02-09 09:41:40
  */
-@Api(tags = "角色详情")
+@Api(tags = "")
 @RestController
 @RequestMapping("sysRole")
 public class SysRoleController {
@@ -34,7 +35,7 @@ public class SysRoleController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping(value = "/queryByPage")
+    @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
     public APIResponse<PageInfo<SysRole>> queryByPage(@RequestBody SysRole sysRole, SearchPage pageRequest) {
         return APIResponse.ok(this.sysRoleService.queryByPage(sysRole, pageRequest));
@@ -60,7 +61,7 @@ public class SysRoleController {
      */
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增数据", notes = "新增数据")
-    public APIResponse<SysRole> add(@RequestBody SysRole sysRole) {
+    public APIResponse<SysRole> add(@RequestBody @Valid SysRole sysRole) {
         return APIResponse.ok(this.sysRoleService.insert(sysRole));
     }
 
@@ -72,7 +73,7 @@ public class SysRoleController {
      */
     @PutMapping(value = "/edit")
     @ApiOperation(value = "编辑数据", notes = "编辑数据")
-    public APIResponse<SysRole> edit(@RequestBody SysRole sysRole) {
+    public APIResponse<SysRole> edit(@RequestBody @Valid SysRole sysRole) {
         return APIResponse.ok(this.sysRoleService.update(sysRole));
     }
 

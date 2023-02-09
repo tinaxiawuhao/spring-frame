@@ -29,10 +29,4 @@ public class LoginController {
         return APIResponse.ok("操作成功");
     }
 
-
-    @PostMapping(value = "/register")
-    @ApiOperation(value = "用户注册接口", notes = "用户注册接口")
-    public APIResponse<SysUser> register(@RequestBody RigistUserVO addedUser) {
-        return APIResponse.ok(sysUserService.register(addedUser));
-    }
 }

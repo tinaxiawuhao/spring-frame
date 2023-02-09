@@ -1,15 +1,15 @@
 package com.example.springframe.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.springframe.entity.SearchPage;
 import com.example.springframe.entity.SysRolePermission;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
+import com.example.springframe.entity.SearchPage;
 
 /**
  * (SysRolePermission)表服务接口
  *
  * @author makejava
- * @since 2022-11-03 11:03:49
+ * @since 2023-02-09 09:41:03
  */
 public interface SysRolePermissionService extends IService<SysRolePermission> {
 

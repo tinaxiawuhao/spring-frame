@@ -20,26 +20,6 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="SysPermissionMap">
-        select id,
-               code,
-               type,
-               name,
-               description,
-               pid,
-               url,
-               menu_type,
-               state,
-               keystr,
-               routing,
-               create_by,
-               create_time,
-               update_by,
-               update_time
-        from sys_permission
-        where id = #{id}
-    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SysPermissionMap">
@@ -96,66 +76,6 @@
         </where>
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
-        select count(1)
-        from sys_permission
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="code != null and code != ''">
-                and code = #{code}
-            </if>
-            <if test="type != null">
-                and type = #{type}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
-            <if test="pid != null">
-                and pid = #{pid}
-            </if>
-            <if test="url != null and url != ''">
-                and url = #{url}
-            </if>
-            <if test="menuType != null">
-                and menu_type = #{menuType}
-            </if>
-            <if test="state != null">
-                and state = #{state}
-            </if>
-            <if test="keystr != null and keystr != ''">
-                and keystr = #{keystr}
-            </if>
-            <if test="routing != null and routing != ''">
-                and routing = #{routing}
-            </if>
-            <if test="createBy != null and createBy != ''">
-                and create_by = #{createBy}
-            </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
-            </if>
-            <if test="updateBy != null and updateBy != ''">
-                and update_by = #{updateBy}
-            </if>
-            <if test="updateTime != null">
-                and update_time = #{updateTime}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_permission(code, type, name, description, pid, url, menu_type, state, keystr, routing,
-                                   create_by, create_time, update_by, update_time)
-        values (#{code}, #{type}, #{name}, #{description}, #{pid}, #{url}, #{menuType}, #{state}, #{keystr}, #{routing},
-                #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
-    </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into sys_permission(code, type, name, description, pid, url, menu_type, state, keystr, routing,
@@ -168,88 +88,55 @@
         </foreach>
     </insert>
 
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_permission(code, type, name, description, pid, url, menu_type, state, keystr, routing,
-        create_by, create_time, update_by, update_time)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.code}, #{entity.type}, #{entity.name}, #{entity.description}, #{entity.pid}, #{entity.url},
-            #{entity.menuType}, #{entity.state}, #{entity.keystr}, #{entity.routing}, #{entity.createBy},
-            #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime})
+    <!--需要通过在数据库连接URL中指定allowMultiQueries参数值为true告诉数据库以支持”;"号分隔的多条语句的执行-->
+    <update id="updateBatch">
+        <foreach collection="entities" item="entity" separator=";">
+            update sys_permission
+            <set>
+                <if test="entity.code != null and entity.code != ''">
+                    code = #{entity.code},
+                </if>
+                <if test="entity.type != null">
+                    type = #{entity.type},
+                </if>
+                <if test="entity.name != null and entity.name != ''">
+                    name = #{entity.name},
+                </if>
+                <if test="entity.description != null and entity.description != ''">
+                    description = #{entity.description},
+                </if>
+                <if test="entity.pid != null">
+                    pid = #{entity.pid},
+                </if>
+                <if test="entity.url != null and entity.url != ''">
+                    url = #{entity.url},
+                </if>
+                <if test="entity.menuType != null">
+                    menu_type = #{entity.menuType},
+                </if>
+                <if test="entity.state != null">
+                    state = #{entity.state},
+                </if>
+                <if test="entity.keystr != null and entity.keystr != ''">
+                    keystr = #{entity.keystr},
+                </if>
+                <if test="entity.routing != null and entity.routing != ''">
+                    routing = #{entity.routing},
+                </if>
+                <if test="entity.createBy != null and entity.createBy != ''">
+                    create_by = #{entity.createBy},
+                </if>
+                <if test="entity.createTime != null">
+                    create_time = #{entity.createTime},
+                </if>
+                <if test="entity.updateBy != null and entity.updateBy != ''">
+                    update_by = #{entity.updateBy},
+                </if>
+                <if test="entity.updateTime != null">
+                    update_time = #{entity.updateTime},
+                </if>
+            </set>
+            where id = #{entity.id}
         </foreach>
-        on duplicate key update
-        code = values(code),
-        type = values(type),
-        name = values(name),
-        description = values(description),
-        pid = values(pid),
-        url = values(url),
-        menu_type = values(menu_type),
-        state = values(state),
-        keystr = values(keystr),
-        routing = values(routing),
-        create_by = values(create_by),
-        create_time = values(create_time),
-        update_by = values(update_by),
-        update_time = values(update_time)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update sys_permission
-        <set>
-            <if test="code != null and code != ''">
-                code = #{code},
-            </if>
-            <if test="type != null">
-                type = #{type},
-            </if>
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
-            <if test="description != null and description != ''">
-                description = #{description},
-            </if>
-            <if test="pid != null">
-                pid = #{pid},
-            </if>
-            <if test="url != null and url != ''">
-                url = #{url},
-            </if>
-            <if test="menuType != null">
-                menu_type = #{menuType},
-            </if>
-            <if test="state != null">
-                state = #{state},
-            </if>
-            <if test="keystr != null and keystr != ''">
-                keystr = #{keystr},
-            </if>
-            <if test="routing != null and routing != ''">
-                routing = #{routing},
-            </if>
-            <if test="createBy != null and createBy != ''">
-                create_by = #{createBy},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
-            </if>
-            <if test="updateBy != null and updateBy != ''">
-                update_by = #{updateBy},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
-            </if>
-        </set>
-        where id = #{id}
     </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from sys_permission
-        where id = #{id}
-    </delete>
-
 </mapper>
-
