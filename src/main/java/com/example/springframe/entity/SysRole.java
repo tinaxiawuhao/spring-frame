@@ -13,21 +13,21 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * (SysRole)实体类
+ * 角色详情(SysRole)实体类
  *
  * @author makejava
- * @since 2023-02-09 09:42:42
+ * @since 2023-02-09 10:29:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_role")
-@ApiModel(value = "SysRole对象", description = "")
+@ApiModel(value = "SysRole对象", description = "角色详情")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysRole extends Model<SysRole> implements Serializable {
-    private static final long serialVersionUID = -23527441535255172L;
+    private static final long serialVersionUID = 543293279602848601L;
     /**
      * 主键
      */

@@ -13,12 +13,12 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
- * (SysRolePermission)表控制层
+ * 角色权限关系(SysRolePermission)表控制层
  *
  * @author makejava
- * @since 2023-02-09 09:41:41
+ * @since 2023-02-09 10:31:29
  */
-@Api(tags = "")
+@Api(tags = "角色权限关系")
 @RestController
 @RequestMapping("sysRolePermission")
 public class SysRolePermissionController {

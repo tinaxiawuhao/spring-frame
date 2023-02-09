@@ -13,33 +13,27 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * (SysRoleUser)实体类
+ * 用户角色关系(SysRoleUser)实体类
  *
  * @author makejava
- * @since 2023-02-09 09:42:42
+ * @since 2023-02-09 10:29:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_role_user")
-@ApiModel(value = "SysRoleUser对象", description = "")
+@ApiModel(value = "SysRoleUser对象", description = "用户角色关系")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
-    private static final long serialVersionUID = -17325973699498996L;
+    private static final long serialVersionUID = -45384168063201802L;
     /**
      * 主键
      */
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    /**
-     * 标识主键
-     */
-    @ApiModelProperty(value = "标识主键", required = true)
-    @NotNull(message = "标识主键不能为空")
-    private String code;
     /**
      * 用户id
      */

@@ -18,7 +18,7 @@ import java.io.Serializable;
  * 用户详情(SysUser)实体类
  *
  * @author makejava
- * @since 2023-02-09 09:42:42
+ * @since 2023-02-09 10:29:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysUser extends Model<SysUser> implements Serializable {
-    private static final long serialVersionUID = 469303289650023381L;
+    private static final long serialVersionUID = 984975073483122506L;
     /**
      * 主键
      */
@@ -120,8 +120,10 @@ public class SysUser extends Model<SysUser> implements Serializable {
     @ApiModelProperty(value = "修改者", required = true)
     @NotNull(message = "修改者不能为空")
     private String updateBy;
-
-    @ApiModelProperty(value = "${column.comment}", required = true)
-    @NotNull(message = "${column.comment}不能为空")
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty(value = "修改时间", required = true)
+    @NotNull(message = "修改时间不能为空")
     private Date updateTime;
 }

@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 用户详情(SysUser)表控制层
  *
  * @author makejava
- * @since 2023-02-09 09:41:41
+ * @since 2023-02-09 10:31:29
  */
 @Api(tags = "用户详情")
 @RestController

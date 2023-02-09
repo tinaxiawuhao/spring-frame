@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 权限详情(SysPermission)表控制层
  *
  * @author makejava
- * @since 2023-02-09 09:44:52
+ * @since 2023-02-09 10:31:29
  */
 @Api(tags = "权限详情")
 @RestController

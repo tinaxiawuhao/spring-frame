@@ -18,7 +18,7 @@ import java.io.Serializable;
  * 权限详情(SysPermission)实体类
  *
  * @author makejava
- * @since 2023-02-09 09:44:52
+ * @since 2023-02-09 10:29:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysPermission extends Model<SysPermission> implements Serializable {
-    private static final long serialVersionUID = -29748574337211814L;
+    private static final long serialVersionUID = 310803037965050824L;
     /**
      * 主键
      */
