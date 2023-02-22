@@ -4,7 +4,6 @@
 
     <resultMap type="com.example.springframe.entity.SysRoleUser" id="SysRoleUserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
@@ -13,14 +12,11 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SysRoleUserMap">
         select
-        id, code, user_id, role_id
+        id, user_id, role_id
         from sys_role_user
         <where>
             <if test="id != null">
                 and id = #{id}
-            </if>
-            <if test="code != null and code != ''">
-                and code = #{code}
             </if>
             <if test="userId != null">
                 and user_id = #{userId}
