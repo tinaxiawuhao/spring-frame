@@ -23,6 +23,7 @@ spring:
       max-file-size: 10MB #限制单个文件的最大值 1MB
       max-request-size: 100MB # 限制上传的多个文件的总大小
   redis:
+    open: ${REDIS_OPEN:false}
     database: ${REDIS_DATABASE:0}
     host: ${REDIS_HOST:10.206.79.194}
     port: ${REDIS_PORT:30170}
@@ -32,6 +33,11 @@ spring:
         max-active: 8
         max-idle: 8
         min-idle: 0
+
+management:
+  health:
+    redis:       #---禁用redis检查
+      enabled: false
 
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）

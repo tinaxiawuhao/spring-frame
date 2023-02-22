@@ -187,5 +187,6 @@
     <orderEntry type="library" name="Maven: de.schlichtherle.truelicense:truelicense-core:1.33" level="project" />
     <orderEntry type="library" name="Maven: de.schlichtherle.truelicense:truelicense-xml:1.33" level="project" />
     <orderEntry type="library" name="Maven: com.lmax:disruptor:3.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.github.ben-manes.caffeine:caffeine:2.6.1" level="project" />
   </component>
 </module>

@@ -8,7 +8,9 @@ import com.example.springframe.springEvent.CustomEvent;
 import com.example.springframe.utils.ApplicationContextProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,7 @@ public class TestController {
      */
     @Resource
     private ServerApplication serverApplication;
+
 
     @GetMapping(value = "/server")
     @ApiOperation(value = "测试队列",notes = "测试队列")
@@ -39,12 +42,6 @@ public class TestController {
         System.out.println("事件开始发布消息："+System.currentTimeMillis());
         ApplicationContextProvider.publishEvent(new CustomEvent("你好啊"));
         return APIResponse.ok("操作成功");
-    }
-
-    @GetMapping("/data/reverseControl/rights")
-    @ApiOperation(value = "反控测试",notes = "反控测试")
-    public APIResponse<String> reverseControl(){
-        return APIResponse.ok("73ec99da5116226170cdf4cfd885b55e");
     }
 
 }

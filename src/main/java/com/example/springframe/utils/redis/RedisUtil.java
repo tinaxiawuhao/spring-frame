@@ -1,6 +1,7 @@
 package com.example.springframe.utils.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@ConditionalOnProperty(prefix = "redis", value = "open", havingValue = "true")
 public final class RedisUtil {
 
     @Autowired

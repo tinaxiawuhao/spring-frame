@@ -6,8 +6,8 @@ import com.example.springframe.config.jwt.UserClaims;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.license.LicenseVerify;
-import com.example.springframe.utils.redis.RedisUtil;
 import com.example.springframe.utils.ReturnWrite;
+import com.example.springframe.utils.cache.CaffeineUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -43,8 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     private JwtPropertiesConfig jwtPropertiesConfig;
 
+    
     @Resource
-    private RedisUtil redisUtil;
+    private CaffeineUtils caffeineUtils;
 
     @Resource
     private LicenseVerify licenseVerify;
@@ -85,10 +86,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 //采用redis缓存，减少数据库查询次数
-                UserDetails userDetails = (UserDetails)redisUtil.get(username);
-                if(Objects.isNull(userDetails)){
+//                UserDetails userDetails = (UserDetails)redisUtil.get(username);
+                UserDetails userDetails;
+                if(Objects.nonNull(caffeineUtils.getCache().getIfPresent(username))){
+                    userDetails = (UserDetails)caffeineUtils.getCache().getIfPresent(username);
+                }else{
                     userDetails = this.userDetailsService.loadUserByUsername(username);
                 }
+
 
                 // 如果是初始密码，返回特殊状态码。
 //                if (passwordEncoder.matches(jwtPropertiesConfig.getInitPass(), userDetails.getPassword()) && !request.getRequestURI().contains("updateOwnPassword")) {
@@ -103,7 +108,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 try {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     //添加缓存
-                    redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
+//                    redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
+                    caffeineUtils.getCache().put(username,userDetails);
                 } catch (Exception e) {
                     log.error("------------异常---------" + e);
                 }
