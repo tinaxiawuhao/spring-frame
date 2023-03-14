@@ -8,11 +8,14 @@ import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.license.LicenseVerify;
 import com.example.springframe.utils.ReturnWrite;
 import com.example.springframe.utils.cache.CaffeineUtils;
+import com.example.springframe.utils.redis.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +49,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     
     @Resource
     private CaffeineUtils caffeineUtils;
+
+    @Autowired(required = false)
+    private RedisUtil redisUtil;
+
+    @Value("${spring.redis.open}")
+    private boolean redisOpen;
 
     @Resource
     private LicenseVerify licenseVerify;
@@ -88,11 +97,24 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 //采用redis缓存，减少数据库查询次数
 //                UserDetails userDetails = (UserDetails)redisUtil.get(username);
                 UserDetails userDetails;
-                if(Objects.nonNull(caffeineUtils.getCache().getIfPresent(username))){
-                    userDetails = (UserDetails)caffeineUtils.getCache().getIfPresent(username);
-                }else{
-                    userDetails = this.userDetailsService.loadUserByUsername(username);
+                if(redisOpen){
+                    userDetails = (UserDetails)redisUtil.get(username);
+                    if(Objects.isNull(userDetails)){
+                        userDetails = this.userDetailsService.loadUserByUsername(username);
+                    }
+                }else {
+                    if(Objects.nonNull(caffeineUtils.getCache().getIfPresent(username))){
+                        userDetails = (UserDetails)caffeineUtils.getCache().getIfPresent(username);
+                    }else{
+                        userDetails = this.userDetailsService.loadUserByUsername(username);
+                    }
                 }
+//                UserDetails userDetails;
+//                if(Objects.nonNull(caffeineUtils.getCache().getIfPresent(username))){
+//                    userDetails = (UserDetails)caffeineUtils.getCache().getIfPresent(username);
+//                }else{
+//                    userDetails = this.userDetailsService.loadUserByUsername(username);
+//                }
 
 
                 // 如果是初始密码，返回特殊状态码。
@@ -108,8 +130,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 try {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     //添加缓存
+                    if(redisOpen){
+                        redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
+                    }else {
+                        caffeineUtils.getCache().put(username,userDetails);
+                    }
 //                    redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
-                    caffeineUtils.getCache().put(username,userDetails);
+//                    caffeineUtils.getCache().put(username,userDetails);
                 } catch (Exception e) {
                     log.error("------------异常---------" + e);
                 }

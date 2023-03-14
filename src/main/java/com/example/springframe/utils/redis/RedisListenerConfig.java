@@ -7,7 +7,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 @Configuration
-@ConditionalOnProperty(prefix = "redis", value = "open", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.redis", value = "open")
 public class RedisListenerConfig {
 
     @Bean

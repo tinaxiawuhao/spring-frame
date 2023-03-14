@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(prefix = "redis", value = "open", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.redis", value = "open")
 public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {
     public RedisKeyExpirationListener(RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);

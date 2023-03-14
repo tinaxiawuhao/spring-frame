@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@ConditionalOnProperty(prefix = "redis", value = "open", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.redis", value = "open")
 public final class RedisUtil {
 
     @Autowired
