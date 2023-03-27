@@ -35,12 +35,8 @@ public class CustomCaffeineConfig {
     @Bean
     @Primary
     public CacheManager caffeineManager(@Qualifier("caffeineProperties") Map<String,String> properties){
-
         CaffeineCacheManager manager = new CaffeineCacheManager();
-        Map.Entry<String,String> entry;
-        Iterator<Map.Entry<String,String>> iterator = properties.entrySet().iterator();
-        while (iterator.hasNext()){
-            entry = iterator.next();
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
             manager.registerCustomCache(entry.getKey(), Caffeine.from(entry.getValue()).build());
         }
         return manager;
