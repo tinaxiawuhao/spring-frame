@@ -1,15 +1,16 @@
 package com.example.springframe.service.impl;
 
 import com.example.springframe.entity.SysRoleUser;
+import com.example.springframe.entity.to.SysRoleUserTO;
 import com.example.springframe.mapper.SysRoleUserMapper;
 import com.example.springframe.service.SysRoleUserService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageInfo;
-import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * 用户角色关系(SysRoleUser)表服务实现类
  *
  * @author makejava
- * @since 2023-02-09 09:58:17
+ * @since 2023-03-27 10:21:46
  */
 @Service("sysRoleUserService")
 public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRoleUser> implements SysRoleUserService {
@@ -40,13 +41,14 @@ public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRo
      * 分页查询
      *
      * @param sysRoleUser 筛选条件
-     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @Override
-    public PageInfo<SysRoleUser> queryByPage(SysRoleUser sysRoleUser, SearchPage pageRequest) {
-        PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysRoleUser> list = this.sysRoleUserMapper.queryAllByLimit(sysRoleUser);
+    public PageInfo<SysRoleUser> queryByPage(SysRoleUserTO sysRoleUser) {
+        PageHelper.startPage(sysRoleUser.getPage(), sysRoleUser.getSize());
+        SysRoleUser build = SysRoleUser.builder().build();
+        BeanUtils.copyProperties(sysRoleUser, build);
+        List<SysRoleUser> list = this.sysRoleUserMapper.queryAllByLimit(build);
         return new PageInfo<>(list);
     }
 

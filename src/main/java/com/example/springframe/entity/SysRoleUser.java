@@ -16,7 +16,7 @@ import java.io.Serializable;
  * 用户角色关系(SysRoleUser)实体类
  *
  * @author makejava
- * @since 2023-02-09 10:29:21
+ * @since 2023-03-27 10:21:46
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,7 +27,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
-    private static final long serialVersionUID = -45384168063201802L;
+    private static final long serialVersionUID = -48260558375096686L;
     /**
      * 主键
      */
@@ -37,13 +37,11 @@ public class SysRoleUser extends Model<SysRoleUser> implements Serializable {
     /**
      * 用户id
      */
-    @ApiModelProperty(value = "用户id", required = true)
-    @NotNull(message = "用户id不能为空")
+    @ApiModelProperty(value = "用户id")
     private Integer userId;
     /**
      * 角色id
      */
-    @ApiModelProperty(value = "角色id", required = true)
-    @NotNull(message = "角色id不能为空")
+    @ApiModelProperty(value = "角色id")
     private Integer roleId;
 }

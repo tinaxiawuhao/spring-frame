@@ -1,15 +1,15 @@
 package com.example.springframe.service;
 
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.entity.to.SysUserTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import com.example.springframe.entity.SearchPage;
 
 /**
  * 用户详情(SysUser)表服务接口
  *
  * @author makejava
- * @since 2023-02-09 09:41:04
+ * @since 2023-03-27 10:21:47
  */
 public interface SysUserService extends IService<SysUser> {
 
@@ -24,11 +24,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 分页查询
      *
-     * @param sysUser     筛选条件
-     * @param pageRequest 分页对象
+     * @param sysUser 筛选条件
      * @return 查询结果
      */
-    PageInfo<SysUser> queryByPage(SysUser sysUser, SearchPage pageRequest);
+    PageInfo<SysUser> queryByPage(SysUserTO sysUser);
 
     /**
      * 新增数据

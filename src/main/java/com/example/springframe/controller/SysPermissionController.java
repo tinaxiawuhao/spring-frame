@@ -1,7 +1,7 @@
 package com.example.springframe.controller;
 
 import com.example.springframe.entity.SysPermission;
-import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.to.SysPermissionTO;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysPermissionService;
 import io.swagger.annotations.Api;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 权限详情(SysPermission)表控制层
  *
  * @author makejava
- * @since 2023-02-09 10:31:29
+ * @since 2023-03-27 10:21:44
  */
 @Api(tags = "权限详情")
 @RestController
@@ -32,13 +32,12 @@ public class SysPermissionController {
      * 分页查询
      *
      * @param sysPermission 筛选条件
-     * @param pageRequest   分页对象
      * @return 查询结果
      */
     @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public APIResponse<PageInfo<SysPermission>> queryByPage(@RequestBody SysPermission sysPermission, SearchPage pageRequest) {
-        return APIResponse.ok(this.sysPermissionService.queryByPage(sysPermission, pageRequest));
+    public APIResponse<PageInfo<SysPermission>> queryByPage(@RequestBody SysPermissionTO sysPermission) {
+        return APIResponse.ok(this.sysPermissionService.queryByPage(sysPermission));
     }
 
     /**

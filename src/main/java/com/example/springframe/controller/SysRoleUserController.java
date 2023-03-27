@@ -1,7 +1,7 @@
 package com.example.springframe.controller;
 
 import com.example.springframe.entity.SysRoleUser;
-import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.to.SysRoleUserTO;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysRoleUserService;
 import io.swagger.annotations.Api;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 用户角色关系(SysRoleUser)表控制层
  *
  * @author makejava
- * @since 2023-02-09 10:31:29
+ * @since 2023-03-27 10:21:46
  */
 @Api(tags = "用户角色关系")
 @RestController
@@ -32,13 +32,12 @@ public class SysRoleUserController {
      * 分页查询
      *
      * @param sysRoleUser 筛选条件
-     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public APIResponse<PageInfo<SysRoleUser>> queryByPage(@RequestBody SysRoleUser sysRoleUser, SearchPage pageRequest) {
-        return APIResponse.ok(this.sysRoleUserService.queryByPage(sysRoleUser, pageRequest));
+    public APIResponse<PageInfo<SysRoleUser>> queryByPage(@RequestBody SysRoleUserTO sysRoleUser) {
+        return APIResponse.ok(this.sysRoleUserService.queryByPage(sysRoleUser));
     }
 
     /**

@@ -1,15 +1,16 @@
 package com.example.springframe.service.impl;
 
 import com.example.springframe.entity.SysUser;
+import com.example.springframe.entity.to.SysUserTO;
 import com.example.springframe.mapper.SysUserMapper;
 import com.example.springframe.service.SysUserService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageInfo;
-import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * 用户详情(SysUser)表服务实现类
  *
  * @author makejava
- * @since 2023-02-09 09:58:17
+ * @since 2023-03-27 10:21:47
  */
 @Service("sysUserService")
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
@@ -39,14 +40,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 分页查询
      *
-     * @param sysUser     筛选条件
-     * @param pageRequest 分页对象
+     * @param sysUser 筛选条件
      * @return 查询结果
      */
     @Override
-    public PageInfo<SysUser> queryByPage(SysUser sysUser, SearchPage pageRequest) {
-        PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysUser> list = this.sysUserMapper.queryAllByLimit(sysUser);
+    public PageInfo<SysUser> queryByPage(SysUserTO sysUser) {
+        PageHelper.startPage(sysUser.getPage(), sysUser.getSize());
+        SysUser build = SysUser.builder().build();
+        BeanUtils.copyProperties(sysUser, build);
+        List<SysUser> list = this.sysUserMapper.queryAllByLimit(build);
         return new PageInfo<>(list);
     }
 

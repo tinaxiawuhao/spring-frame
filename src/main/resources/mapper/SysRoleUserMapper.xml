@@ -29,10 +29,10 @@
 
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_role_user(code, user_id, role_id)
+        insert into sys_role_user(user_id, role_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.code}, #{entity.userId}, #{entity.roleId})
+            (#{entity.userId}, #{entity.roleId})
         </foreach>
     </insert>
 
@@ -41,9 +41,6 @@
         <foreach collection="entities" item="entity" separator=";">
             update sys_role_user
             <set>
-                <if test="entity.code != null and entity.code != ''">
-                    code = #{entity.code},
-                </if>
                 <if test="entity.userId != null">
                     user_id = #{entity.userId},
                 </if>

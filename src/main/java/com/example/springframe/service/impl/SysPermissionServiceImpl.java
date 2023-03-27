@@ -1,15 +1,16 @@
 package com.example.springframe.service.impl;
 
 import com.example.springframe.entity.SysPermission;
+import com.example.springframe.entity.to.SysPermissionTO;
 import com.example.springframe.mapper.SysPermissionMapper;
 import com.example.springframe.service.SysPermissionService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageInfo;
-import com.example.springframe.entity.SearchPage;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * 权限详情(SysPermission)表服务实现类
  *
  * @author makejava
- * @since 2023-02-09 09:58:17
+ * @since 2023-03-27 10:21:45
  */
 @Service("sysPermissionService")
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
@@ -40,13 +41,14 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
      * 分页查询
      *
      * @param sysPermission 筛选条件
-     * @param pageRequest   分页对象
      * @return 查询结果
      */
     @Override
-    public PageInfo<SysPermission> queryByPage(SysPermission sysPermission, SearchPage pageRequest) {
-        PageHelper.startPage(pageRequest.getPage(), pageRequest.getSize());
-        List<SysPermission> list = this.sysPermissionMapper.queryAllByLimit(sysPermission);
+    public PageInfo<SysPermission> queryByPage(SysPermissionTO sysPermission) {
+        PageHelper.startPage(sysPermission.getPage(), sysPermission.getSize());
+        SysPermission build = SysPermission.builder().build();
+        BeanUtils.copyProperties(sysPermission, build);
+        List<SysPermission> list = this.sysPermissionMapper.queryAllByLimit(build);
         return new PageInfo<>(list);
     }
 

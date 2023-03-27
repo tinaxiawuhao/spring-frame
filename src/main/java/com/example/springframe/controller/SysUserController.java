@@ -1,7 +1,7 @@
 package com.example.springframe.controller;
 
 import com.example.springframe.entity.SysUser;
-import com.example.springframe.entity.SearchPage;
+import com.example.springframe.entity.to.SysUserTO;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * 用户详情(SysUser)表控制层
  *
  * @author makejava
- * @since 2023-02-09 10:31:29
+ * @since 2023-03-27 10:21:47
  */
 @Api(tags = "用户详情")
 @RestController
@@ -31,14 +31,13 @@ public class SysUserController {
     /**
      * 分页查询
      *
-     * @param sysUser     筛选条件
-     * @param pageRequest 分页对象
+     * @param sysUser 筛选条件
      * @return 查询结果
      */
     @PostMapping(value = "/queryByPage")
     @ApiOperation(value = "获取分页数据", notes = "获取分页数据")
-    public APIResponse<PageInfo<SysUser>> queryByPage(@RequestBody SysUser sysUser, SearchPage pageRequest) {
-        return APIResponse.ok(this.sysUserService.queryByPage(sysUser, pageRequest));
+    public APIResponse<PageInfo<SysUser>> queryByPage(@RequestBody SysUserTO sysUser) {
+        return APIResponse.ok(this.sysUserService.queryByPage(sysUser));
     }
 
     /**

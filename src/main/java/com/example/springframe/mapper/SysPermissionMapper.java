@@ -2,8 +2,8 @@ package com.example.springframe.mapper;
 
 import com.example.springframe.entity.SysPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,8 +11,9 @@ import java.util.List;
  * 权限详情(SysPermission)表数据库访问层
  *
  * @author makejava
- * @since 2023-02-09 09:44:52
+ * @since 2023-03-27 10:21:44
  */
+@Mapper
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     /**

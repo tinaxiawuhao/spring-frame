@@ -2,17 +2,18 @@ package com.example.springframe.mapper;
 
 import com.example.springframe.entity.SysRoleUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 /**
- * (SysRoleUser)表数据库访问层
+ * 用户角色关系(SysRoleUser)表数据库访问层
  *
  * @author makejava
- * @since 2023-02-09 09:41:03
+ * @since 2023-03-27 10:21:46
  */
+@Mapper
 public interface SysRoleUserMapper extends BaseMapper<SysRoleUser> {
 
     /**

@@ -18,7 +18,7 @@ import java.io.Serializable;
  * 权限详情(SysPermission)实体类
  *
  * @author makejava
- * @since 2023-02-09 10:29:21
+ * @since 2023-03-27 10:21:44
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysPermission extends Model<SysPermission> implements Serializable {
-    private static final long serialVersionUID = 310803037965050824L;
+    private static final long serialVersionUID = 142209922999056007L;
     /**
      * 主键
      */
@@ -39,85 +39,71 @@ public class SysPermission extends Model<SysPermission> implements Serializable 
     /**
      * 标识主键
      */
-    @ApiModelProperty(value = "标识主键", required = true)
-    @NotNull(message = "标识主键不能为空")
+    @ApiModelProperty(value = "标识主键")
     private String code;
     /**
      * 菜单所属系统，0平台端，1租户端
      */
-    @ApiModelProperty(value = "菜单所属系统，0平台端，1租户端", required = true)
-    @NotNull(message = "菜单所属系统，0平台端，1租户端不能为空")
+    @ApiModelProperty(value = "菜单所属系统，0平台端，1租户端")
     private Integer type;
     /**
      * 菜单名称
      */
-    @ApiModelProperty(value = "菜单名称", required = true)
-    @NotNull(message = "菜单名称不能为空")
+    @ApiModelProperty(value = "菜单名称")
     private String name;
     /**
      * 功能说明
      */
-    @ApiModelProperty(value = "功能说明", required = true)
-    @NotNull(message = "功能说明不能为空")
+    @ApiModelProperty(value = "功能说明")
     private String description;
     /**
      * 父id
      */
-    @ApiModelProperty(value = "父id", required = true)
-    @NotNull(message = "父id不能为空")
+    @ApiModelProperty(value = "父id")
     private Integer pid;
     /**
      * url路径
      */
-    @ApiModelProperty(value = "url路径", required = true)
-    @NotNull(message = "url路径不能为空")
+    @ApiModelProperty(value = "url路径")
     private String url;
     /**
      * 菜单类型;0菜单，1按钮
      */
-    @ApiModelProperty(value = "菜单类型;0菜单，1按钮", required = true)
-    @NotNull(message = "菜单类型;0菜单，1按钮不能为空")
+    @ApiModelProperty(value = "菜单类型;0菜单，1按钮")
     private Integer menuType;
     /**
      * 是否可用，0可用，1禁用
      */
-    @ApiModelProperty(value = "是否可用，0可用，1禁用", required = true)
-    @NotNull(message = "是否可用，0可用，1禁用不能为空")
+    @ApiModelProperty(value = "是否可用，0可用，1禁用")
     private Integer state;
     /**
      * 权限标识
      */
-    @ApiModelProperty(value = "权限标识", required = true)
-    @NotNull(message = "权限标识不能为空")
+    @ApiModelProperty(value = "权限标识")
     private String keystr;
     /**
      * 前端路由
      */
-    @ApiModelProperty(value = "前端路由", required = true)
-    @NotNull(message = "前端路由不能为空")
+    @ApiModelProperty(value = "前端路由")
     private String routing;
     /**
      * 创建者
      */
-    @ApiModelProperty(value = "创建者", required = true)
-    @NotNull(message = "创建者不能为空")
+    @ApiModelProperty(value = "创建者")
     private String createBy;
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", required = true)
-    @NotNull(message = "创建时间不能为空")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
     /**
      * 修改者
      */
-    @ApiModelProperty(value = "修改者", required = true)
-    @NotNull(message = "修改者不能为空")
+    @ApiModelProperty(value = "修改者")
     private String updateBy;
     /**
      * 修改时间
      */
-    @ApiModelProperty(value = "修改时间", required = true)
-    @NotNull(message = "修改时间不能为空")
+    @ApiModelProperty(value = "修改时间")
     private Date updateTime;
 }
