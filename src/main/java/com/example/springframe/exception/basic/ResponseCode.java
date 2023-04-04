@@ -21,6 +21,9 @@ public enum ResponseCode implements IResponseCode {
     ACCOUNT_LOCKED( "无法登录，请与管理员联系",409),
     CODE_NOT_SEND( "短信验证码未发送",411),
     CODE_ERROR( "短信验证码错误",412),
+    CONNECTION_TIMEOUT("服务连接超时，请重试",51001),
+    GETDATA_FAIL("接口调用失败",510002),
+    REQUEST_PARAM_ERROR("接口请求参数异常",510003),
     ;
     int code;
 
