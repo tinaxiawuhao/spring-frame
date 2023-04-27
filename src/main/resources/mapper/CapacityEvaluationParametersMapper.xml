@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springframe.entity.CapacityEvaluationParameters">
+
+    <resultMap type="com.example.springframe.entity.CapacityEvaluationParameters" id="CapacityEvaluationParametersMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="productionLineName" column="production_line_name" jdbcType="VARCHAR"/>
+        <result property="workingDayPerMonth" column="working_day_per_month" jdbcType="INTEGER"/>
+        <result property="workingHours" column="working_hours" jdbcType="NUMERIC"/>
+        <result property="shiftsPerDay" column="shifts_per_day" jdbcType="INTEGER"/>
+        <result property="newproductDebug" column="newproduct_debug" jdbcType="INTEGER"/>
+        <result property="oee" column="oee" jdbcType="NUMERIC"/>
+        <result property="standardStaffing" column="standard_staffing" jdbcType="INTEGER"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="productionLineType" column="production_line_type" jdbcType="INTEGER"/>
+        <result property="productionLineId" column="production_line_id" jdbcType="VARCHAR"/>
+        <result property="month" column="month" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

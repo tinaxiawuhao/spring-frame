@@ -167,7 +167,12 @@
             <!--https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeinez找最新版-->
             <version>2.6.1</version>
         </dependency>
-
+        <!--easeexcel-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
