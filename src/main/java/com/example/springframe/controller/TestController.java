@@ -12,6 +12,7 @@ import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.service.CapacityEvaluationParametersService;
 import com.example.springframe.springEvent.CustomEvent;
 import com.example.springframe.utils.ApplicationContextProvider;
+import com.example.springframe.version.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +27,8 @@ import java.util.List;
 
 @Api(tags = "测试功能")
 @RestController
-@RequestMapping("v1")
+@ApiVersion
+@RequestMapping(value = "/{version}/test")
 public class TestController {
 
     /**
@@ -42,6 +44,7 @@ public class TestController {
 
     @GetMapping(value = "/server")
     @ApiOperation(value = "测试队列",notes = "测试队列")
+    @ApiVersion("1.1")
     public APIResponse<String> server() {
         DataPacket build = DataPacket.builder()
                 .type(PacketType.REQUEST).body("{}")
@@ -61,6 +64,7 @@ public class TestController {
     @RequestMapping(value = "/importCapacityEvaluationParameters", method = RequestMethod.POST)
     @ApiOperation(value = "导入产能评估参数", notes = "导入产能评估参数")
     @SneakyThrows
+    @ApiVersion("2.0")
     public APIResponse importCapacityEvaluationParameters(MultipartFile file) {
         EasyExcel.read(file.getInputStream(), UploadData.class, new UploadDataListener(capacityEvaluationParametersService, CapacityEvaluationParameters.class)).sheet().doRead();
         return APIResponse.ok();
@@ -70,6 +74,7 @@ public class TestController {
     @GetMapping("download")
     @ApiOperation(value = "产能评估参数导出", notes = "产能评估参数导出")
     @SneakyThrows
+    @ApiVersion("2.0")
     public void download(HttpServletResponse response, @ApiParam(name = "productionLineType", value = "产线类型(0:总装，1:装准，2:机加)", required = true)  @RequestParam("productionLineType") Integer productionLineType) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");

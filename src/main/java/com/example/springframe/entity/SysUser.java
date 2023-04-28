@@ -11,7 +11,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -45,6 +47,8 @@ public class SysUser extends Model<SysUser> implements Serializable {
      * 用户名
      */
     @ApiModelProperty(value = "用户名")
+    @NotNull(message = "用户账号不能为空")
+    @Size(min = 6, max = 11, message = "账号长度必须是6-11个字符")
     private String username;
     /**
      * 昵称
@@ -55,6 +59,8 @@ public class SysUser extends Model<SysUser> implements Serializable {
      * 密码
      */
     @ApiModelProperty(value = "密码")
+    @NotNull(message = "用户密码不能为空")
+    @Size(min = 6, max = 11, message = "密码长度必须是6-16个字符")
     private String password;
     /**
      * 最后一次更新密码时间
@@ -75,6 +81,8 @@ public class SysUser extends Model<SysUser> implements Serializable {
      * 邮件地址
      */
     @ApiModelProperty(value = "邮件地址")
+    @NotNull(message = "用户邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
     private String email;
     /**
      * 性别，0男，1女

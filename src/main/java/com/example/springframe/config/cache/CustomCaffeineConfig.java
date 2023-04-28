@@ -1,4 +1,4 @@
-package com.example.springframe.cache;
+package com.example.springframe.config.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
