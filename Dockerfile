@@ -1,6 +1,8 @@
-FROM williamyeh/java8:latest
-MAINTAINER wuhao<wuhao.cosmo@haier.com>
+FROM openjdk:8u191-alpine
+MAINTAINER wuhao<zhoutao.cosmo@haier.com>
 WORKDIR /work
+# 添加bash命令
+RUN apk update && apk add bash
 COPY target/springframe-0.0.1-SNAPSHOT.jar ./springframe.jar
 COPY src/main/resources/license/ ./resources/license/
 ENV LANG=zh_CN.UTF-8 LANGUAGE=zh_CN:zh LC_ALL=zh_CN.UTF-8
