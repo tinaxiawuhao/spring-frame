@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.example.springframe.entity.proto";
+//option java_outer_classname = "ModelWsMessage";
+
+message WsMessageList {
+  repeated WsMessage wsMessages = 1;
+}
+
+message WsMessage {
+  int32 messageType = 1;
+  optional string indexCode = 2;
+  optional string state = 3;
+  optional string totalTime = 4;
+  optional string simTime = 5;
+  optional string surplusTime = 6;
+  optional string modelName = 7;
+  optional string nextId = 8;
+  optional string entityId = 9;
+  optional int32 actionType = 10;
+  optional double runtime = 11;
+  optional string entityType = 12;
+  optional double playSpeed = 13;
+  optional string operatorIndexCode = 14;
+}
