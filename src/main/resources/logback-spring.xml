@@ -1,213 +1,204 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+    <!--读取基本信息-->
+    <!--引用默认日志配置-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--使用默认的控制台日志输出实现-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-<!-- 级别从高到低 OFF 、 FATAL 、 ERROR 、 WARN 、 INFO 、 DEBUG 、 TRACE 、 ALL -->
-<!-- 日志输出规则 根据当前ROOT 级别，日志输出时，级别高于root默认的级别时 会输出 -->
-<!-- 以下 每个配置的 filter 是过滤掉输出文件里面，会出现高级别文件，依然出现低级别的日志信息，通过filter 过滤只记录本级别的日志 -->
-<!-- scan 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。 -->
-<!-- scanPeriod 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
-<!-- debug 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <!-- 自定义日志采集参数：[%rid] 采集请求唯一标记 -->
-    <conversionRule conversionWord="rid" converterClass="com.example.springframe.config.log.RidConvert"/>
-    <!-- 动态日志级别 -->
-    <jmxConfigurator/>
+    <!--application.yml中读取信息-->
+    <!--应用名沿用springboot的-->
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="springBoot"/>
+    <!--logstash地址-->
+    <springProperty name="LOG_STASH_HOST" scope="context" source="logstash.host" defaultValue="localhost"/>
 
-    <!--*****************************************************************************-->
-    <!--自定义项 开始-->
-    <!--*****************************************************************************-->
+    <!--自定义属性-->
+    <!--项目名-->
+    <property name="PROJECT_NAME" value="mall"/>
 
-    <!-- 定义日志文件 输出位置 -->
-    <property name="log.home_dir" value="log"/>
-    <property name="log.app_name" value="http-demo"/>
-    <!-- 日志最大的历史 30天 -->
-    <property name="log.maxHistory" value="30"/>
-    <property name="log.maxSize" value="5MB"/>
-    <!-- 日志界别 -->
-    <property name="log.level" value="info"/>
-    <!-- 打印sql语句 需要指定dao层包的位置 -->
-    <property name="mapper.package" value="com.example.springframe.mapper" />
-
-    <!--*****************************************************************************-->
-    <!--自定义项 结束-->
-    <!--*****************************************************************************-->
-
-    <!--从application.yml配置中加载spring.application.name属性-->
-    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
-
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:8888</destination>
-        <!-- 日志输出编码 -->
-        <encoder charset="UTF-8"
-                 class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+    <!--全局DEBUG日志,到LogStash-->
+    <appender name="LOG_STASH_DEBUG" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--日志级别过滤-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4560</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
-                    <timeZone>UTC</timeZone>
+                    <timeZone>Asia/Shanghai</timeZone>
                 </timestamp>
+                <!--自定义日志输出格式-->
                 <pattern>
                     <pattern>
                         {
-                        "logLevel": "%level",
-                        "serviceName": "${springAppName:-}",
-                        "logdate": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
-                        "logthread": "%thread",
-                        "logclass": "%logger{40}",
-                        "logmsg": "%message",
-                        "rid": "%rid"
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
                         }
                     </pattern>
                 </pattern>
             </providers>
         </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
     </appender>
 
-    <!-- ConsoleAppender 控制台输出日志 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern> %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%rid] : - %msg%n</pattern>
-            <charset>utf8</charset>
-        </encoder>
-    </appender>
-
-    <!-- ERROR级别日志 -->
-    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
-    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 过滤器，只记录WARN级别的日志 -->
-        <!-- 果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
+    <!--全局ERROR日志，到LogStash-->
+    <appender name="LOG_STASH_ERROR" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--日志级别过滤，只接收error级别-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!-- 设置过滤级别 -->
             <level>ERROR</level>
-            <!-- 用于配置符合过滤条件的操作 -->
-            <onMatch>ACCEPT</onMatch>
-            <!-- 用于配置不符合过滤条件的操作 -->
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责触发滚动 -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!--日志输出位置 可相对、和绝对路径 -->
-            <fileNamePattern>
-                ${log.home_dir}/error/%d{yyyy-MM-dd}/${log.app_name}-%i.log
-            </fileNamePattern>
-            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,假设设置每个月滚动，且<maxHistory>是6，
-            则只保存最近6个月的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除 -->
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <!--日志文件最大的大小-->
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>
-                <!-- 设置日志输出格式 -->
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%rid] : - %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-
-    <!-- WARN级别日志 appender -->
-    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 过滤器，只记录WARN级别的日志 -->
-        <!-- 果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!-- 设置过滤级别 -->
-            <level>WARN</level>
-            <!-- 用于配置符合过滤条件的操作 -->
-            <onMatch>ACCEPT</onMatch>
-            <!-- 用于配置不符合过滤条件的操作 -->
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!--日志输出位置 可相对、和绝对路径 -->
-            <fileNamePattern>${log.home_dir}/warn/%d{yyyy-MM-dd}/${log.app_name}-%i.log</fileNamePattern>
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <!--当天的日志大小 超过MaxFileSize时,压缩日志并保存-->
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  [%rid] :- %msg%n</pattern>
-        </encoder>
-    </appender>
-
-
-    <!-- INFO级别日志 appender -->
-    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/info/%d{yyyy-MM-dd}/${log.app_name}-%i.log</fileNamePattern>
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4561</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
         </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!--controller层日志输出，到LogStash-->
+    <appender name="LOG_STASH_RECORD" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4563</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!--业务日志输出，到LogStash-->
+    <appender name="LOG_STASH_BUSINESS" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4562</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
     </appender>
 
 
-    <!-- DEBUG级别日志 appender -->
-    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/debug/%d{yyyy-MM-dd}/${log.app_name}-%i.log</fileNamePattern>
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] : - %msg%n</pattern>
-        </encoder>
-    </appender>
+    <!--控制日志输出级别，只有在info以上的日志，才会调用root的日志-->
+    <!--日志组件的日志-->
+    <logger name="org.slf4j" level="INFO"/>
+    <!--swagger的日志-->
+    <logger name="springfox" level="INFO"/>
+    <logger name="io.swagger" level="INFO"/>
+    <!--spring的日志-->
+    <logger name="org.springframework" level="INFO"/>
+    <!--controller层日志-->
+    <logger name="org.hibernate.validator" level="INFO"/>
 
 
-    <!-- TRACE级别日志 appender -->
-    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>TRACE</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/trace/%d{yyyy-MM-dd}/${log.app_name}-%i.log</fileNamePattern>
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
-        </encoder>
-    </appender>
-
-
-    <!--设置一个向上传递的appender,所有级别的日志都会输出-->
-    <appender name="app" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.home_dir}/app/%d{yyyy-MM-dd}/${log.app_name}-%i.log</fileNamePattern>
-            <maxHistory>${log.maxHistory}</maxHistory>
-            <MaxFileSize>${log.maxSize}</MaxFileSize>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger  [%rid] :- %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <!-- root级别   DEBUG -->
+    <!--全局日志配置-->
     <root>
-        <!-- 打印debug级别日志及以上级别日志 -->
         <level value="${log.level}"/>
-        <!-- 控制台输出 -->
+        <!--输出日志到控制台-->
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="LOGSTASH" />
-        <!-- 不管什么包下的日志都输出文件 -->
-        <!--<appender-ref ref="ERROR"/>-->
-        <!--<appender-ref ref="INFO"/>-->
-        <!--<appender-ref ref="WARN"/>-->
-        <!--<appender-ref ref="DEBUG"/>-->
-        <!--<appender-ref ref="TRACE"/>-->
+        <!--输出debug日志es-->
+        <appender-ref ref="LOG_STASH_DEBUG"/>
+        <!--输出错误日志到es-->
+        <appender-ref ref="LOG_STASH_ERROR"/>
     </root>
 
-</configuration>
+    <!--controller层的日志,打在WebLogAspect里了,所以记录WebLogAspect里的日志，覆盖root定义-->
+    <logger name="com.example.springframe.aop.elk.WebLogAspect" level="DEBUG">
+        <appender-ref ref="LOG_STASH_RECORD"/>
+    </logger>
 
+    <!--自定义总包下其他的日志,覆盖root定义-->
+    <logger name="com.example.springframe" level="DEBUG">
+        <appender-ref ref="LOG_STASH_BUSINESS"/>
+    </logger>
+
+</configuration>
