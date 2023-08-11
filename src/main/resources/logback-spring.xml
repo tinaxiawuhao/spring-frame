@@ -32,6 +32,35 @@
     <!--自定义项 结束-->
     <!--*****************************************************************************-->
 
+    <!--从application.yml配置中加载spring.application.name属性-->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:8888</destination>
+        <!-- 日志输出编码 -->
+        <encoder charset="UTF-8"
+                 class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "logLevel": "%level",
+                        "serviceName": "${springAppName:-}",
+                        "logdate": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "logthread": "%thread",
+                        "logclass": "%logger{40}",
+                        "logmsg": "%message",
+                        "rid": "%rid"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
     <!-- ConsoleAppender 控制台输出日志 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -165,24 +194,13 @@
         </encoder>
     </appender>
 
-
-    <!--org.springframework.web包下的类的日志输出-->
-    <logger name="org.springframework.web" additivity="false" level="WARN">
-        <appender-ref ref="WARN"/>
-    </logger>
-    <!--dao层包下的类的日志输出-->
-    <logger name="${mapper.package}" additivity="false" level="DEBUG">
-        <appender-ref ref="app"/>
-        <appender-ref ref="ERROR"/>
-        <!--打印控制台-->
-        <appender-ref ref="CONSOLE"/>
-    </logger>
     <!-- root级别   DEBUG -->
     <root>
         <!-- 打印debug级别日志及以上级别日志 -->
         <level value="${log.level}"/>
         <!-- 控制台输出 -->
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGSTASH" />
         <!-- 不管什么包下的日志都输出文件 -->
         <!--<appender-ref ref="ERROR"/>-->
         <!--<appender-ref ref="INFO"/>-->
@@ -192,3 +210,4 @@
     </root>
 
 </configuration>
+

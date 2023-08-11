@@ -3,4 +3,7 @@ spring:
     name: spring-frame
   profiles:
     active:  ${SERVER_ACTIVE:local}
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
 

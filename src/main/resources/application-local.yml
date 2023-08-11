@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api
 spring:
@@ -62,7 +62,7 @@ swagger:
 jwt:
   header: Authorization
   secret: cuAihCz53DZRjZwbsGcZJ2Ai6At+T142uphtJMsk7iQ=
-  expiration: 3600
+  expiration: ${EXPIRATION:3600}
   tokenHead: "Bearer "
   pub-uris:
     # 开放接口

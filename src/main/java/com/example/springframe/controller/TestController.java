@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,10 +28,9 @@ import java.util.List;
 
 @Api(tags = "测试功能")
 @RestController
-@ApiVersion
-@RequestMapping(value = "/{version}/test")
+@RequestMapping(value = "test")
+@Slf4j
 public class TestController {
-
     /**
      * 服务对象
      */
@@ -44,7 +44,6 @@ public class TestController {
 
     @GetMapping(value = "/server")
     @ApiOperation(value = "测试队列",notes = "测试队列")
-    @ApiVersion("1.1")
     public APIResponse<String> server() {
         DataPacket build = DataPacket.builder()
                 .type(PacketType.REQUEST).body("{}")
@@ -64,17 +63,15 @@ public class TestController {
     @RequestMapping(value = "/importCapacityEvaluationParameters", method = RequestMethod.POST)
     @ApiOperation(value = "导入产能评估参数", notes = "导入产能评估参数")
     @SneakyThrows
-    @ApiVersion("2.0")
     public APIResponse importCapacityEvaluationParameters(MultipartFile file) {
         EasyExcel.read(file.getInputStream(), UploadData.class, new UploadDataListener(capacityEvaluationParametersService, CapacityEvaluationParameters.class)).sheet().doRead();
         return APIResponse.ok();
     }
 
 
-    @GetMapping("download")
+    @GetMapping("/download")
     @ApiOperation(value = "产能评估参数导出", notes = "产能评估参数导出")
     @SneakyThrows
-    @ApiVersion("2.0")
     public void download(HttpServletResponse response, @ApiParam(name = "productionLineType", value = "产线类型(0:总装，1:装准，2:机加)", required = true)  @RequestParam("productionLineType") Integer productionLineType) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
@@ -85,5 +82,11 @@ public class TestController {
         List<CapacityEvaluationParameters> list = capacityEvaluationParametersService.listByType(productionLineType);
 
         EasyExcel.write(response.getOutputStream(), DownloadData.class).sheet("产能评估参数").doWrite(list);
+    }
+
+    @GetMapping("/{version}/log")
+    @ApiVersion
+    public void test(){
+        log.info("测试初始一些日志吧！");
     }
 }

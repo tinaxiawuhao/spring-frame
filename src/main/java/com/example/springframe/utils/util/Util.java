@@ -4,8 +4,8 @@ import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import io.micrometer.core.instrument.util.StringEscapeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;

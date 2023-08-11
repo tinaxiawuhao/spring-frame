@@ -41,7 +41,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
         UserClaims userClaims = new UserClaims(claims);
-        log.info("解析 -> {}", JSON.toJSONString(userClaims));
+//        log.info("解析 -> {}", JSON.toJSONString(userClaims));
         return userClaims;
     }
 
