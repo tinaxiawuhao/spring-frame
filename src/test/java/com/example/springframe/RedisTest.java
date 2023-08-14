@@ -1,11 +1,14 @@
 package com.example.springframe;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.example.springframe.utils.redis.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @SpringBootTest
 public class RedisTest {
@@ -33,6 +36,15 @@ public class RedisTest {
             redisUtil.hset("h12345","addr","测试");
             System.out.println(redisUtil.hget("h12345","name"));
             System.out.println(redisUtil.hmget("h12345"));
+        }
+
+        {
+            //测试list相关方法
+            List<Object> list=new ArrayList<>();
+            list.add("道可道");
+            list.add("非常道");
+            redisUtil.lSet("l12345",list);
+            System.out.println(redisUtil.lGet("l12345",0,redisUtil.lGetListSize("l12345")-1));
         }
 
     }
