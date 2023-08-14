@@ -1,5 +1,6 @@
 package com.example.springframe.utils.redis;
 
+import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.DataAccessException;
@@ -7,14 +8,12 @@ import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -120,6 +119,22 @@ public final class RedisUtil {
 
     }
 
+    /**
+     * 原子性自增
+     *
+     * @param key
+     * @param liveTime
+     * @return
+     */
+    public Long incrAtomic(String key, long liveTime) {
+        RedisAtomicLong entityIdCounter = new RedisAtomicLong(key, Objects.requireNonNull(redisTemplate.getConnectionFactory()));
+        long increment = entityIdCounter.getAndIncrement();
+
+        if (liveTime > 0) {//初始设置过期时间
+            entityIdCounter.expire(liveTime, TimeUnit.SECONDS);
+        }
+        return increment;
+    }
 
     // ============================String=============================
 
@@ -143,8 +158,8 @@ public final class RedisUtil {
      * @param <T>
      * @return
      */
-    public <T> T getObject(String key) {
-        return key == null ? null : (T) redisTemplate.opsForValue().get(key);
+    public <T> T getObject(String key,Class<T> clazz) {
+        return key == null ? null :  JSONUtil.toBean(redisTemplate.opsForValue().get(key).toString(),clazz);
 
     }
 
