@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.example.springframe.utils.tree.TreeExtend;
+import com.example.springframe.utils.tree.TreeField;
+import com.example.springframe.utils.tree.TreeProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -28,11 +31,12 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysPermission extends Model<SysPermission> implements Serializable {
+public class SysPermission extends TreeExtend implements Serializable {
     private static final long serialVersionUID = 142209922999056007L;
     /**
      * 主键
      */
+    @TreeProperty(TreeField.ID)
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -49,6 +53,7 @@ public class SysPermission extends Model<SysPermission> implements Serializable 
     /**
      * 菜单名称
      */
+    @TreeProperty(TreeField.NAME)
     @ApiModelProperty(value = "菜单名称")
     private String name;
     /**
@@ -59,6 +64,7 @@ public class SysPermission extends Model<SysPermission> implements Serializable 
     /**
      * 父id
      */
+    @TreeProperty(TreeField.PARENT_ID)
     @ApiModelProperty(value = "父id")
     private Integer pid;
     /**
@@ -106,4 +112,11 @@ public class SysPermission extends Model<SysPermission> implements Serializable 
      */
     @ApiModelProperty(value = "修改时间")
     private Date updateTime;
+
+    /**
+     * sort
+     */
+    @TreeProperty(TreeField.SORT)
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 }
