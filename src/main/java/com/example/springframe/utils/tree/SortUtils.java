@@ -29,11 +29,6 @@ public final class SortUtils {
         }
     }
 
-    public static void sortTreeByField(List<TreeNode> data,String field) {
-        if (!CollectionUtil.isEmpty(data)) {
-            sortASC(data,field);
-        }
-    }
 
     /**
      * 树节点排序方法

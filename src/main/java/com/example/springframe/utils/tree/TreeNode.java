@@ -43,6 +43,7 @@ public class TreeNode {
     /**
      * 排序
      */
+    @TreeSort
     public Integer sort;
 
     public void setHasLeaf(boolean hasLeaf) {

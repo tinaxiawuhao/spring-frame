@@ -48,7 +48,7 @@ public class TreeTest {
                 "          \"type\": 0,\n" +
                 "          \"name\": \"新增\",\n" +
                 "          \"description\": \"平台草稿箱创建按钮\",\n" +
-                "          \"pid\": 2,\n" +
+                "          \"pid\": 28,\n" +
                 "          \"menuType\": 1,\n" +
                 "          \"keystr\": \"platform_case_update\",\n" +
                 "          \"routing\": null,\n" +
@@ -61,7 +61,7 @@ public class TreeTest {
                 "          \"type\": 0,\n" +
                 "          \"name\": \"修改\",\n" +
                 "          \"description\": \"平台草稿箱编辑按钮\",\n" +
-                "          \"pid\": 2,\n" +
+                "          \"pid\": 28,\n" +
                 "          \"menuType\": 1,\n" +
                 "          \"keystr\": \"platform_case_update\",\n" +
                 "          \"routing\": \"/drafts/edit\",\n" +
@@ -74,11 +74,50 @@ public class TreeTest {
                 "          \"type\": 0,\n" +
                 "          \"name\": \"删除\",\n" +
                 "          \"description\": \"平台草稿箱删除按钮\",\n" +
-                "          \"pid\": 2,\n" +
+                "          \"pid\": 30,\n" +
                 "          \"menuType\": 1,\n" +
                 "          \"keystr\": \"platform_case_delete\",\n" +
                 "          \"routing\": null,\n" +
                 "          \"sort\": 3,\n" +
+                "          \"children\": []\n" +
+                "        }";
+        String str6=" {\n" +
+                "          \"id\": 32,\n" +
+                "          \"code\": \"901afad3-2464-4ad6-b2af-84e9c3e6ed04\",\n" +
+                "          \"type\": 0,\n" +
+                "          \"name\": \"修改1\",\n" +
+                "          \"description\": \"平台草稿箱编辑按钮\",\n" +
+                "          \"pid\": 28,\n" +
+                "          \"menuType\": 1,\n" +
+                "          \"keystr\": \"platform_case_update\",\n" +
+                "          \"routing\": \"/drafts/edit\",\n" +
+                "          \"sort\": 1,\n" +
+                "          \"children\": []\n" +
+                "        }";
+        String str7=" {\n" +
+                "          \"id\": 33,\n" +
+                "          \"code\": \"901afad3-2464-4ad6-b2af-84e9c3e6ed04\",\n" +
+                "          \"type\": 0,\n" +
+                "          \"name\": \"修改2\",\n" +
+                "          \"description\": \"平台草稿箱编辑按钮\",\n" +
+                "          \"pid\": 28,\n" +
+                "          \"menuType\": 1,\n" +
+                "          \"keystr\": \"platform_case_update\",\n" +
+                "          \"routing\": \"/drafts/edit\",\n" +
+                "          \"sort\": 3,\n" +
+                "          \"children\": []\n" +
+                "        }";
+        String str8=" {\n" +
+                "          \"id\": 34,\n" +
+                "          \"code\": \"901afad3-2464-4ad6-b2af-84e9c3e6ed04\",\n" +
+                "          \"type\": 0,\n" +
+                "          \"name\": \"修改3\",\n" +
+                "          \"description\": \"平台草稿箱编辑按钮\",\n" +
+                "          \"pid\": 28,\n" +
+                "          \"menuType\": 1,\n" +
+                "          \"keystr\": \"platform_case_update\",\n" +
+                "          \"routing\": \"/drafts/edit\",\n" +
+                "          \"sort\": 5,\n" +
                 "          \"children\": []\n" +
                 "        }";
         List<SysPermission> list =new ArrayList<>();
@@ -87,6 +126,9 @@ public class TreeTest {
         list.add(JSONUtil.toBean(str3, SysPermission.class));
         list.add(JSONUtil.toBean(str4, SysPermission.class));
         list.add(JSONUtil.toBean(str5, SysPermission.class));
+        list.add(JSONUtil.toBean(str6, SysPermission.class));
+        list.add(JSONUtil.toBean(str7, SysPermission.class));
+        list.add(JSONUtil.toBean(str8, SysPermission.class));
         JSONArray objects = TreeUtils.genListTreeByExtend(list);
         System.out.println(objects);
     }

@@ -44,7 +44,7 @@ class TreeChildren implements Comparator<TreeNode>, Serializable {
     public void sortChildren() {
         // 对本层节点进行排序
         // 可根据不同的排序属性，传入不同的比较器，这里传入ID比较器
-        SortUtils.sortTreeByField(list,"sort");
+        SortUtils.sort(list);
         // 对每个节点的下一层节点进行排序
         list.forEach(
                 TreeNode::sortChildren
