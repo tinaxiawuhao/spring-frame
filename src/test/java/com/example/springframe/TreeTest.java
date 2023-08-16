@@ -3,14 +3,10 @@ package com.example.springframe;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.example.springframe.entity.SysPermission;
-import com.example.springframe.license.License;
-import com.example.springframe.license.LicenseCreator;
 import com.example.springframe.utils.tree.TreeUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TreeTest {
