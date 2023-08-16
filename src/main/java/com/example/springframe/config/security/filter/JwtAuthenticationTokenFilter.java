@@ -1,8 +1,10 @@
 package com.example.springframe.config.security.filter;
 
+import cn.hutool.json.JSONUtil;
 import com.example.springframe.config.jwt.JwtPropertiesConfig;
 import com.example.springframe.config.jwt.JwtService;
 import com.example.springframe.config.jwt.UserClaims;
+import com.example.springframe.config.security.impl.UserSecurityDetailImpl;
 import com.example.springframe.exception.basic.APIResponse;
 import com.example.springframe.exception.basic.ResponseCode;
 import com.example.springframe.license.LicenseVerify;
@@ -98,7 +100,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 //                UserDetails userDetails = (UserDetails)redisUtil.get(username);
                 UserDetails userDetails;
                 if(redisOpen){
-                    userDetails = (UserDetails)redisUtil.get(username);
+                    userDetails = JSONUtil.toBean(JSONUtil.toJsonStr(redisUtil.get(username)), UserSecurityDetailImpl.class);
                     if(Objects.isNull(userDetails)){
                         userDetails = this.userDetailsService.loadUserByUsername(username);
                     }
@@ -131,7 +133,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     //添加缓存
                     if(redisOpen){
-                        redisUtil.set(username,userDetails,jwtPropertiesConfig.getExpiration());
+                        redisUtil.set(username, JSONUtil.toJsonStr(userDetails),jwtPropertiesConfig.getExpiration());
                     }else {
                         caffeineUtils.getCache().put(username,userDetails);
                     }

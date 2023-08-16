@@ -99,3 +99,9 @@ mysqltomd:
   exclude-field:
   # 输出表名称
   appoint-table:
+
+#logging:
+#  logstash:
+#    host: 127.0.0.1
+#  level:
+#    root: debug

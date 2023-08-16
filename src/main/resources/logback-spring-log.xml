@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+    <!--读取基本信息-->
+    <!--引用默认日志配置-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--使用默认的控制台日志输出实现-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!--application.yml中读取信息-->
+    <!--应用名沿用springboot的-->
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="springBoot"/>
+    <!--logstash地址-->
+    <springProperty name="LOG_STASH_HOST" scope="context" source="logging.logstash.host" defaultValue="localhost"/>
+
+    <!--自定义属性-->
+    <!--项目名-->
+    <property name="PROJECT_NAME" value="mall"/>
+
+    <!--全局DEBUG日志,到LogStash-->
+    <appender name="LOG_STASH_DEBUG" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--日志级别过滤-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4560</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!--全局ERROR日志，到LogStash-->
+    <appender name="LOG_STASH_ERROR" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--日志级别过滤，只接收error级别-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4561</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!--controller层日志输出，到LogStash-->
+    <appender name="LOG_STASH_RECORD" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4563</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!--业务日志输出，到LogStash-->
+    <appender name="LOG_STASH_BUSINESS" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--logstash地址-->
+        <destination>${LOG_STASH_HOST}:4562</destination>
+        <!--控制编码格式-->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Shanghai</timeZone>
+                </timestamp>
+                <!--自定义日志输出格式-->
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "project": "${PROJECT_NAME:-}",
+                        "service": "${APP_NAME:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger",
+                        "message": "%message",
+                        "stack_trace": "%exception{20}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <!--当有多个LogStash服务时，设置访问策略为轮询-->
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+
+    <!--控制日志输出级别，只有在info以上的日志，才会调用root的日志-->
+    <!--日志组件的日志-->
+    <logger name="org.slf4j" level="INFO"/>
+    <!--swagger的日志-->
+    <logger name="springfox" level="INFO"/>
+    <logger name="io.swagger" level="INFO"/>
+    <!--spring的日志-->
+    <logger name="org.springframework" level="INFO"/>
+    <!--controller层日志-->
+    <logger name="org.hibernate.validator" level="INFO"/>
+
+
+    <!--全局日志配置-->
+    <root>
+        <level value="${log.level}"/>
+        <!--输出日志到控制台-->
+        <appender-ref ref="CONSOLE"/>
+        <!--输出debug日志es-->
+        <appender-ref ref="LOG_STASH_DEBUG"/>
+        <!--输出错误日志到es-->
+        <appender-ref ref="LOG_STASH_ERROR"/>
+    </root>
+
+    <!--controller层的日志,打在WebLogAspect里了,所以记录WebLogAspect里的日志，覆盖root定义-->
+    <logger name="com.example.springframe.aop.elk.WebLogAspect" level="DEBUG">
+        <appender-ref ref="LOG_STASH_RECORD"/>
+    </logger>
+
+    <!--自定义总包下其他的日志,覆盖root定义-->
+    <logger name="com.example.springframe" level="DEBUG">
+        <appender-ref ref="LOG_STASH_BUSINESS"/>
+    </logger>
+
+</configuration>

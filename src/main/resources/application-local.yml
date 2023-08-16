@@ -104,9 +104,8 @@ mysqltomd:
   # 输出表名称
   appoint-table:
 
-logstash:
-  host: 127.0.0.1
-
-logging:
-  level:
-    root: debug
+#logging:
+#  logstash:
+#    host: 127.0.0.1
+#  level:
+#    root: debug
