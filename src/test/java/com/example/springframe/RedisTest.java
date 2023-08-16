@@ -1,6 +1,5 @@
 package com.example.springframe;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.springframe.entity.SysPermission;
 import com.example.springframe.utils.redis.RedisUtil;
@@ -20,19 +19,20 @@ public class RedisTest {
     @Test
     void test(){
         {
-            String str1="{\n" +
-                    "      \"id\": 2,\n" +
-                    "      \"code\": \"e54d063f-2132-43d3-aaf7-cdb0508a737c\",\n" +
-                    "      \"type\": 0,\n" +
-                    "      \"name\": \"草稿箱\",\n" +
-                    "      \"description\": \"平台草稿箱菜单\",\n" +
-                    "      \"pid\": 0,\n" +
-                    "      \"menuType\": 0,\n" +
-                    "      \"keystr\": \"platform_case_list\",\n" +
-                    "      \"routing\": \"/drafts\",\n" +
-                    "      \"sort\": -1,\n" +
-                    "      \"children\": []\n" +
-                    "    }";
+            String str1= """
+                    {
+                          "id": 2,
+                          "code": "e54d063f-2132-43d3-aaf7-cdb0508a737c",
+                          "type": 0,
+                          "name": "草稿箱",
+                          "description": "平台草稿箱菜单",
+                          "pid": 0,
+                          "menuType": 0,
+                          "keystr": "platform_case_list",
+                          "routing": "/drafts",
+                          "sort": -1,
+                          "children": []
+                        }""";
             List<SysPermission> list =new ArrayList<>();
             list.add(JSONUtil.toBean(str1, SysPermission.class));
             redisUtil.set("permission",list);
