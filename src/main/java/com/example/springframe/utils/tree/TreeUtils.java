@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.example.springframe.utils.util.Op;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,6 +21,25 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("all")
 public class TreeUtils {
+
+    public static void main(String[] args) {
+        List<Example> list =new ArrayList<>();
+        Map<Integer,Integer> map =new HashMap<>();
+        for (int i = 0; i < 100; i++) {
+            Example build = Example.builder().build();
+            build.setId(i);
+            if(i!=0){
+                build.setParentId(i/10);
+            }
+            build.setName("name"+i);
+            map.put(i/10, Optional.ofNullable(map.get(i/10)).orElse(0)+1);
+            build.setSort(map.get(i/10));
+            build.setData("测试"+i);
+            list.add(build);
+        }
+
+        System.out.println(genListTreeByExtend(list));
+    }
     /**
      * 树节点排序
      *

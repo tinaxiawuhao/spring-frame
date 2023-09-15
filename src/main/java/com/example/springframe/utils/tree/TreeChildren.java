@@ -80,7 +80,7 @@ class TreeChildren implements Comparator<TreeNode>, Serializable {
      */
     @Override
     public String toString() {
-        return list.stream().map(TreeNode::toJSON).collect(Collectors.toList()).toString();
+        return list.stream().map(TreeNode::toJSON).toList().toString();
 
     }
 
