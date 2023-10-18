@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.example.springframe.entity.proto";
+//option java_outer_classname = "ModelWsMessage";
+
+message IotWsMessageList {
+  repeated WsMessage wsMessages = 1;
+}
+
+message WsMessage {
+  string subscriptionId = 1;
+  repeated MessageData messageData = 2;
+}
+
+message MessageData {
+  string point = 1;
+  string value = 2;
+}

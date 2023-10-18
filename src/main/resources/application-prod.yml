@@ -105,3 +105,9 @@ mysqltomd:
 #    host: 127.0.0.1
 #  level:
 #    root: debug
+
+data:
+  iotBasicUrl: ${IOT_BASIC_URL:ws://127.0.0.1:30000/ws}
+  platform: ${PLATFORM:websocket}
+  timeTnterval: ${TIMETNTERVAL:1000}
+  nettyPort: ${nettyPort:7000}
