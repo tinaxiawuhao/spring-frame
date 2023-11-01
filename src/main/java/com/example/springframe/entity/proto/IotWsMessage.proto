@@ -9,8 +9,9 @@ message IotWsMessageList {
 }
 
 message WsMessage {
-  string subscriptionId = 1;
-  repeated MessageData messageData = 2;
+  string indexCode = 1;
+  string productionMaterialCode = 2;
+  repeated MessageData messageData = 3;
 }
 
 message MessageData {

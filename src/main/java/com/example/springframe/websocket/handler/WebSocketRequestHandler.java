@@ -3,6 +3,7 @@ package com.example.springframe.websocket.handler;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.springframe.config.websocket.DataProperties;
 import com.example.springframe.entity.proto.IotWsMessage;
 import com.example.springframe.websocket.message.IotWsMessagePublish;
@@ -222,7 +223,7 @@ public class WebSocketRequestHandler extends SimpleChannelInboundHandler<Object>
         }
     }
 
-    public static void linkWebsocket(String url, String caseId, String jsonObject) {
+    public static void linkWebsocket(String url, String caseId, String jsonObject,String productionMaterialCode) {
         WebSocketClient client = CONCURRENT_HASH_MAP.get(caseId);
         if (client == null || client.getReadyState().equals(ReadyState.CLOSED)) {
             try {
@@ -244,7 +245,7 @@ public class WebSocketRequestHandler extends SimpleChannelInboundHandler<Object>
                         //发送数据
                         IotWsMessagePublish iotWsMessagePublish = IOT_WS_MESSAGE_PUBLISH_MAP.get(caseId);
                         if (Objects.nonNull(iotWsMessagePublish)) {
-                            iotWsMessagePublish.publish(toProtocolMsg(text));
+                            iotWsMessagePublish.publish(toProtocolMsg(text,productionMaterialCode));
                         }
                     }
 
@@ -344,15 +345,19 @@ public class WebSocketRequestHandler extends SimpleChannelInboundHandler<Object>
         }
     }
 
-    private static IotWsMessage.WsMessage toProtocolMsg(String wsMessage) {
+    private static IotWsMessage.WsMessage toProtocolMsg(String wsMessage,String productionMaterialCode) {
+        if(StringUtils.isBlank(productionMaterialCode)){
+            productionMaterialCode = "缺少生成物料模型code,请去工序编辑器修改";
+        }
         JSONObject objects = JSONUtil.parseObj(wsMessage);
         JSONObject data = JSONUtil.parseObj(objects.get("data"));
-        IotWsMessage.WsMessage.Builder builder = IotWsMessage.WsMessage.newBuilder().setSubscriptionId(String.valueOf(objects.get("subscriptionId")));
+        IotWsMessage.WsMessage.Builder builder = IotWsMessage.WsMessage.newBuilder()
+                .setIndexCode(String.valueOf(objects.get("subscriptionId")))
+                .setProductionMaterialCode(productionMaterialCode);
         List<IotWsMessage.MessageData> list = data.keySet().stream().map(key -> {
             Object value = JSONUtil.parseArray(JSONUtil.parseArray(data.get(key)).get(0)).get(1);
             return IotWsMessage.MessageData.newBuilder().setPoint(key).setValue(String.valueOf(value)).build();
         }).toList();
         return builder.addAllMessageData(list).build();
-
     }
 }

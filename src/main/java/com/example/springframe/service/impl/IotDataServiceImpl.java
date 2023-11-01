@@ -43,7 +43,7 @@ public class IotDataServiceImpl {
 
     public void start(String caseId) {
         if(Platform.WEBSOCKET.desc.equals(dataProperties.getPlatform())){
-            WebSocketRequestHandler.linkWebsocket(dataProperties.getIotBasicUrl(),caseId,"");
+            WebSocketRequestHandler.linkWebsocket(dataProperties.getIotBasicUrl(),caseId,"","");
         }else if(Platform.INTERFACE.desc.equals(dataProperties.getPlatform())){
             iotDataUrlConnection("DeviceCode",caseId);
         }
