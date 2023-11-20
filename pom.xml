@@ -212,6 +212,22 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.86.Final</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.milo/sdk-client -->
+        <dependency>
+            <groupId>org.eclipse.milo</groupId>
+            <artifactId>sdk-server</artifactId>
+            <version>0.6.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kangaroohy</groupId>
+            <artifactId>milo-spring-boot-starter</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
